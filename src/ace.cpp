@@ -20,7 +20,7 @@ Drive chassis(
 
 	// Cartridge RPM
 	,
-	200
+	600
 
 	// External Gear Ratio (MUST BE DECIMAL)
 	,
@@ -46,13 +46,15 @@ namespace ace
 	// leds
 	pros::ADILed led(PORT_LED, 60);
 
-	A_Motor launcherMotorLeft(PORT_LAUNCHER_LEFT, MOTOR_GEARSET_06, true);
+	A_Motor launcherMotor(PORT_LAUNCHER, MOTOR_GEARSET_36, true);
 
-	A_Motor launcherMotorRight(PORT_LAUNCHER_RIGHT, MOTOR_GEARSET_06, false);
+	A_Motor intakeMotorLeft(PORT_INTAKE_LEFT, MOTOR_GEARSET_36, false);
 
-	A_Motor intakeMotorLeft(PORT_INTAKE_LEFT, MOTOR_GEARSET_18, false);
+	A_Motor intakeMotorRight(PORT_INTAKE_RIGHT,MOTOR_GEARSET_36, true);
 
-	A_Motor intakeMotorRight(PORT_INTAKE_RIGHT,MOTOR_GEARSET_18, true);
+	A_Motor endgamMotorLeft(PORT_ENDGAME_LEFT, MOTOR_GEARSET_6, false);
+
+	A_Motor endgameMotorRight(PORT_ENDGAME_RIGHT, MOTOR_GEARSET_6, true);
 
 	/* ========================================================================= */
 	/*                              Class Definitions                             */
@@ -222,11 +224,13 @@ namespace ace
 	//launch triball
 	
 	void launch(float speed){
+		/*
 		launcherMotorLeft.move_voltage(speed * 120);
 		launcherMotorRight.move_voltage(speed * 120);
 		pros::delay(650);
 		launcherMotorLeft.move_voltage(speed * -120);
 		launcherMotorRight.move_voltage(speed * -120);
+		*/
 		/*
 		pros::delay(1000);
 		launcherMotor.move_voltage(speed * -120 );
@@ -235,67 +239,32 @@ namespace ace
 		launcherMotor.move_voltage(0);
 	*/
 	}
-	// Launch disks
-	/*
-	void launch(float speed, bool isLong)
-	{
-		long_launch_timer.update(ez::util::DELAY_TIME);	
-		// if lower than speed
-		if (!curr_launching && launcherMotor.get_actual_velocity() < (speed - LAUNCHER_SPEED_CUTOFF) * 6.0)
-		{
-			launcherMotor.move_voltage(12000);
-			intakeMotor.spin_percent(100);
-			return;
-		}
-		// wait for angle auto target
-		else if (!curr_launching && auto_targeting_enabled && std::abs(theta) >= 2.0 || !long_launch_timer.done())
-		{
-			launcherMotor.move_voltage(speed * 120.0);
-			intakeMotor.spin_percent(100);
-			return;
-		}
-		// FIRE ZE WEAPON
-		else
-		{
-2			// fire rapidly no matter what if target speed  cvis under 80 while button is held
-			if (!isLong)
-			{
-				curr_launching = true;
-			}
 
-			// if speed drops while rapid firing, boost voltage to 100% to supplement speed loss
-			if (launcherMotor.get_actual_velocity() < (speed - 5.0) * 6.0)
-			{
-				launcherMotor.move_voltage(12000);
-				//12000 initial, causes slight issues 
-			}
-			else
-			{
-				launcherMotor.move_voltage(speed * 120.0);
-			}
-
-			intakeMotor.spin_percent(-100);
-		}
+	void reset_launcher(float speed){
+		if(!limit.get_value()){
+			launcherMotor.move_voltage(speed * -120);
+		}else{
+			launcherMotor.move_voltage(speed*0);
 	}
-*/
+}
+
 
 	// launch standby
 	void launch_standby(bool enabled, float speed)
 	{
 		curr_launching = false;
 		if (enabled)
-			launcherMotorLeft.move_velocity(speed * 6);
+			launcherMotor.move_velocity(speed * 6);
 			
 		else
-			launcherMotorLeft.move_velocity(0);
+			launcherMotor.move_velocity(0);
 			
 	}
 
 	// reset motors to 0 voltage
 	void reset_motors()
 	{	
-		launcherMotorLeft.move_voltage(0);
-		launcherMotorRight.move_voltage(0);
+		launcherMotor.move_voltage(0);
 		intakeMotorLeft.move_voltage(0);
 		intakeMotorRight.move_voltage(0);
 	
@@ -303,7 +272,7 @@ namespace ace
 		launcher_standby_enabled = false;
 
 		flapPneumatics.set_value(false);
-		endgamePneumatics.set_value(false);
+		//endgamePneumatics.set_value(false);
 	}
 
 
@@ -319,8 +288,28 @@ namespace ace
 		}
 		else
 		{
-			endgamePneumatics.set_value(0);
+			flapPneumatics.set_value(0);
 		}
+
+
+
+	}
+	void lock_toggle(bool enabled)
+	{
+		if (enabled)
+		{
+			lockPneumatics.set_value(1);
+			return;
+
+
+
+		}
+		else
+		{
+			lockPneumatics.set_value(0);
+
+		}
+
 
 
 
@@ -331,19 +320,19 @@ namespace ace
 		if (enabled)
 		{
 			endgame_timer.reset();
-			endgamePneumatics.set_value(1);
+			//endgamePneumatics.set_value(1);
 			return;
 		}
 		else
 		{
 			if (endgame_timer.done())
 			{
-				endgamePneumatics.set_value(0);
+				//endgamePneumatics.set_value(0);
 				return;
 			}
 
 			endgame_timer.update(20);
-			endgamePneumatics.set_value(1);
+			//endgamePneumatics.set_value(1);
 		}
 	}
 

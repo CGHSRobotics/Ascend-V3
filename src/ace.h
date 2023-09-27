@@ -81,15 +81,16 @@ namespace ace {
 	/* ------------------------- Other Motors / Devices ------------------------- */
 	#define PORT_INTAKE_LEFT 20
 	#define PORT_INTAKE_RIGHT 12
-	#define PORT_LAUNCHER_LEFT 11
-	#define PORT_LAUNCHER_RIGHT 16
+	#define PORT_LAUNCHER 11
+	#define PORT_ENDGAME_RIGHT 8
+	#define PORT_ENDGAME_LEFT 7
 
 	#define PORT_VISION 10
 	#define PORT_IMU 15
 
 	/* ------------------------------- ADI Devices ------------------------------ */
 
-	#define PORT_PNEU_ENDGAME { INTERNAL_ADI_PORT, 'A' }
+	#define PORT_PNEU_LOCK { INTERNAL_ADI_PORT, 'A' }
 
 	#define PORT_PNEU_FLAP { INTERNAL_ADI_PORT, 'B' }
 
@@ -97,6 +98,7 @@ namespace ace {
 
 	#define PORT_LED { INTERNAL_ADI_PORT, 'D' }
 
+	#define PORT_LIMIT { INTERNAL_ADI_PORT, 'F' }
 
 
 	/* ========================================================================== */
@@ -163,6 +165,7 @@ namespace ace {
 	static bool endgame_enabled = false;
 	static bool auto_targeting_enabled = false;
 	static bool flap_enabled = false;
+	static bool lock_enabled = false;
 	extern bool is_red_alliance; 
 
 	extern float launch_speed;
@@ -225,9 +228,7 @@ namespace ace {
 	/* ------------------------- Other Motors / Devices ------------------------- */
 
 	// Launcher motor
-	extern A_Motor launcherMotorLeft;
-
-	extern A_Motor LauncherMotorRight;
+	extern A_Motor launcherMotor;
 
 	// Motor for intake left
 	extern A_Motor intakeMotorLeft;
@@ -244,8 +245,9 @@ namespace ace {
 	// Flap Pneumatics
 	const pros::ADIDigitalOut flapPneumatics(PORT_PNEU_FLAP, false);
 
-	// Endgame Pneumatics
-	const pros::ADIDigitalOut endgamePneumatics(PORT_PNEU_ENDGAME, false);
+	const pros::ADIDigitalOut lockPneumatics(PORT_PNEU_LOCK, false);
+
+	const pros::ADIDigitalIn limit(PORT_LIMIT, false);
 
 
 	// Light Sensor for disk launching
@@ -259,6 +261,7 @@ namespace ace {
 
 	/* --------------------------------- Master --------------------------------- */
 
+	static Btn_Digi btn_lock(pros::E_CONTROLLER_DIGITAL_Y, cntr_master);
 	// Custom Button for Intake Toggle
 	static Btn_Digi btn_intake_toggle(pros::E_CONTROLLER_DIGITAL_L1, cntr_master);
 
@@ -340,6 +343,11 @@ namespace ace {
 	 * @param enabled	bool whether enabled
 	 * @param speed		speed % on how fast standby is
 	 */
+
+	extern void reset_launcher(float speed);
+
+
+
 	extern void launch_standby(bool enabled, float speed);
 
 	/**
@@ -354,6 +362,8 @@ namespace ace {
 	 * @brief 	calls flapjack toggle
 	 *
 	 */
+
+	extern void lock_toggle(bool enabled);
 
 	extern void endgame_toggle(bool enabled);
 

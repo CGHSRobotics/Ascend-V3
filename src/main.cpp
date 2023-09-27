@@ -49,7 +49,7 @@ void initialize()
 	chassis.initialize();
 	ace::intakeMotorLeft.init();
 	ace::intakeMotorRight.init();
-	ace::launcherMotorLeft.init();
+	ace::launcherMotor.init();
 	pros::lcd::shutdown();
 
 	ace::endgame_timer.currTime = ace::endgame_timer.maxTime + 100;
@@ -128,6 +128,9 @@ void opcontrol()
 
 		//ace::intake_enabled = ace::btn_intake_toggle.get_press();
 
+		if(ace::btn_lock.get_press()){
+			ace::lock_enabled = !ace::lock_enabled;
+		}
 		// Intake Reverse
 		if (ace::btn_intake_reverse.get_press())
 		{
@@ -289,6 +292,7 @@ void opcontrol()
 
 			// flapjack
 			ace::flap_toggle(ace::flap_enabled);
+			ace::lock_toggle(ace::lock_enabled);
 
 		}
 
@@ -296,7 +300,7 @@ void opcontrol()
 		// Line 1 - Master
 		ace::update_cntr_text(ace::cntr_master, 0,
 			(std::string)"Master" +
-			"  " + std::to_string((int)ace::launcherMotorLeft.get_temp()) + "F" + " " + std::to_string((int)pros::battery::get_capacity()) + "%");
+			"  " + std::to_string((int)ace::launcherMotor.get_temp()) + "F" + " " + std::to_string((int)pros::battery::get_capacity()) + "%");
  
 		// Line 1 - Partner
 		ace::update_cntr_text(ace::cntr_partner, 0,
