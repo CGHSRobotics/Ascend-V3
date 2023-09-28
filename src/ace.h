@@ -124,6 +124,7 @@ namespace ace {
 
 	extern util::timer endgame_timer;
 	extern util::timer intake_timer;
+	extern util::timer launcher_timer;
 	extern util::timer long_launch_timer;
 
 	extern double theta;
@@ -247,7 +248,7 @@ namespace ace {
 
 	const pros::ADIDigitalOut lockPneumatics(PORT_PNEU_LOCK, false);
 
-	const pros::ADIDigitalIn limit(PORT_LIMIT, false);
+	const pros::ADIDigitalIn limit(PORT_LIMIT);
 
 
 	// Light Sensor for disk launching
