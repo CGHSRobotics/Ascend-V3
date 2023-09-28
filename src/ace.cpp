@@ -40,12 +40,12 @@ float launch_speed = LAUNCH_SPEED;
 
 util::timer endgame_timer(200);
 util::timer intake_timer(2000);
-util::timer launcher_timer(1000);
+util::timer launcher_timer(50);
 
 // leds
 // pros::ADILed led(PORT_LED, 60);
 
-A_Motor launcherMotor(PORT_LAUNCHER, MOTOR_GEARSET_36, true);
+A_Motor launcherMotor(PORT_LAUNCHER, MOTOR_GEARSET_36, false);
 
 A_Motor intakeMotorLeft(PORT_INTAKE_LEFT, MOTOR_GEARSET_36, false);
 
@@ -166,17 +166,23 @@ util::timer long_launch_timer(650);
 void launch(float speed) {
   /*
   launcher_timer.reset();
-  launcherMotorLeft.move_voltage(speed*120);
-  launcherMotorRight.move_voltage(speed*120);
+  launcherMotor.move_voltage(speed*-120);
   if (launcher_timer.done()) {
-    launcherMotorLeft.move_voltage(0);
-    launcherMotorRight.move_voltage(0);
+    launcherMotor.move_voltage(0);
+    */
+   launcherMotor.move_voltage(speed*-120);
+   pros::delay(20);
+   launcherMotor.move_voltage(speed*-120);
 
-  */
+  
   // Second option
+  /*
   while (!launcher_timer.done()) {
-    launcherMotor.move_voltage(speed * 120);
+    launcherMotor.move_voltage(speed * -120);
   }
+  */
+  
+
 }
 
 void reset_launcher(float speed) {
@@ -201,7 +207,7 @@ void launch_standby(bool enabled, float speed) {
 void reset_motors() {
   launcherMotor.move_voltage(0);
   intakeMotorLeft.move_voltage(0);
-  intakeMotorRight.move_voltage(0);
+  //intakeMotorRight.move_voltage(0);
 
   launcher_standby_enabled = false;
 
@@ -231,6 +237,27 @@ void lock_toggle(bool enabled) {
 }
 // toggles endgame
 void endgame_toggle(bool enabled) {
+  if (enabled){
+    endgamMotorLeft.move_voltage(ENDGAME_SPEED*120);
+    endgameMotorRight.move_voltage(ENDGAME_SPEED*120);
+  }else{
+    endgamMotorLeft.move_voltage(ENDGAME_SPEED*-120);
+    endgameMotorRight.move_voltage(ENDGAME_SPEED*-120);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*
   if (enabled) {
     endgame_timer.reset();
     // endgamePneumatics.set_value(1);
@@ -244,26 +271,27 @@ void endgame_toggle(bool enabled) {
     endgame_timer.update(20);
     // endgamePneumatics.set_value(1);
   }
+  */
 }
 
 void intake_toggle(bool enabled) {
   // intake enabled
   if (enabled) {
-    intakeMotorLeft.spin_percent(INTAKE_SPEED);
-    intakeMotorRight.spin_percent(INTAKE_SPEED);
+    intakeMotorLeft.spin_percent(-INTAKE_SPEED);
+    //intakeMotorRight.spin_percent(-INTAKE_SPEED);
   }
 
   // Not enabled
   else {
     intake_timer.reset();
     intakeMotorLeft.spin_percent(0);
-    intakeMotorRight.spin_percent(0);
+   //intakeMotorRight.spin_percent(0);
   }
 }
 
 void intake_reverse() {
-  intakeMotorLeft.spin_percent(-INTAKE_SPEED);
-  intakeMotorRight.spin_percent(-INTAKE_SPEED);
+  intakeMotorLeft.spin_percent(INTAKE_SPEED);
+  //intakeMotorRight.spin_percent(INTAKE_SPEED);
 }
 
 /* ------------------------------ Vision Sensor ----------------------------- */

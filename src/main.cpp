@@ -111,6 +111,7 @@ void opcontrol()
 
 	while (true)
 	{
+		ace::launcher_timer.reset();
 		ace::reset_launcher(ace::LAUNCH_SPEED);
 
 		/* -------------------------------- Get Input ------------------------------- */
