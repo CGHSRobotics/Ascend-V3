@@ -84,7 +84,7 @@ void autonomous()
 	std::string curr_auton = ace::auton::auton_selection[ace::auton::auton_selection_index];
 
 	ace::reset_motors();
-
+	ace::reset_launcher(ace::launch_speed);
 	if (curr_auton == "1")
 	{
 		ace::auton::score();
@@ -130,9 +130,7 @@ void opcontrol()
 
 		//ace::intake_enabled = ace::btn_intake_toggle.get_press();
 
-		if(ace::btn_lock.get_press()){
-			ace::lock_enabled = !ace::lock_enabled;
-		}
+	
 		// Intake Reverse
 		if (ace::btn_intake_reverse.get_press())
 		{
@@ -177,6 +175,14 @@ void opcontrol()
 		if (ace::btn_flap.get_press_new())
 		{
 			ace::flap_enabled = !ace::flap_enabled;
+
+		}
+
+		if(ace::btn_lock.get_press_new())
+		{
+			ace::lock_enabled = !ace::lock_enabled;
+
+
 
 		}
 
@@ -294,6 +300,7 @@ void opcontrol()
 
 			// flapjack
 			ace::flap_toggle(ace::flap_enabled);
+
 			ace::lock_toggle(ace::lock_enabled);
 
 		}

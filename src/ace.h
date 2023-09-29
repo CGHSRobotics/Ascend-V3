@@ -82,21 +82,21 @@ namespace ace {
 	#define PORT_INTAKE_LEFT 20
 	#define PORT_INTAKE_RIGHT 12
 	#define PORT_LAUNCHER 11
-	#define PORT_ENDGAME_RIGHT 19
-	#define PORT_ENDGAME_LEFT 12
+	#define PORT_ENDGAME_RIGHT 16
+	#define PORT_ENDGAME_LEFT 19
 
 	#define PORT_VISION 10
 	#define PORT_IMU 15
 
 	/* ------------------------------- ADI Devices ------------------------------ */
 
-	#define PORT_PNEU_LOCK { INTERNAL_ADI_PORT, 'F' }
+	#define PORT_PNEU_LOCK { INTERNAL_ADI_PORT, 'G' }
 
-	#define PORT_PNEU_FLAP { INTERNAL_ADI_PORT, 'B' }
+	#define PORT_PNEU_FLAP { INTERNAL_ADI_PORT, 'H' }
 
-	#define PORT_SENSOR_LIGHT { INTERNAL_ADI_PORT, 'C' }
+	#define PORT_SENSOR_LIGHT { INTERNAL_ADI_PORT, 'D' }
 
-	#define PORT_LED { INTERNAL_ADI_PORT, 'D' }
+	#define PORT_LED { INTERNAL_ADI_PORT, 'E' }
 
 	#define PORT_LIMIT { INTERNAL_ADI_PORT, 'A' }
 
@@ -179,8 +179,8 @@ namespace ace {
 
 	// Launcher Speeds
 	
-	const float LAUNCH_SPEED = 70.0;
-	const float ENDGAME_SPEED = 60.0;
+	const float LAUNCH_SPEED = 45.0;
+	const float ENDGAME_SPEED = 80.0;
 	
 	const float LAUNCH_SPEED_STANDBY = LAUNCH_SPEED;
 	const float LAUNCHER_SPEED_CUTOFF = 5;
@@ -498,7 +498,7 @@ namespace ace::auton {
 	 * @param rollerDegrees degrees to spin by
 	 */
 
-	extern void launch_auton(float time, float speed);
+	extern void launch_auton(float speed);
 
 	extern void drive_chassis(float distance, float speed, bool wait = true);
 

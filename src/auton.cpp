@@ -13,7 +13,7 @@ namespace ace::auton {
 	/* ========================================================================== */
 	void score() {
 	drive_chassis(12, DRIVE_SPEED);
-	launch_auton(3, LAUNCH_SPEED);
+	
 	turn_chassis(180, TURN_SPEED);
 	drive_chassis(12, DRIVE_SPEED);
 	intake_toggle(true);
@@ -21,7 +21,7 @@ namespace ace::auton {
 	intake_toggle(false);
 	turn_chassis(180, TURN_SPEED);
 	drive_chassis(12, DRIVE_SPEED);
-	launch_auton(3, LAUNCH_SPEED);
+	
 	//Go for more goals?
 	}
 
@@ -157,22 +157,9 @@ namespace ace::auton {
 	}
 	*/
 
-	void launch_auton(float time, float speed)
+	void launch_auton(float speed)
 	{
-		ace::util::timer launch_timer(time);
-		launch(ace::launch_speed);
-
-		while(!launch_timer.done())
-		{
-			launch_timer.update(ez::util::DELAY_TIME);
-
-		} {
-
-
-
-
-		}
-
+		ace::launch(speed);
 	}
 
 

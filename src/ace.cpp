@@ -51,7 +51,7 @@ A_Motor intakeMotorLeft(PORT_INTAKE_LEFT, MOTOR_GEARSET_36, false);
 
 A_Motor intakeMotorRight(PORT_INTAKE_RIGHT, MOTOR_GEARSET_36, true);
 
-A_Motor endgamMotorLeft(PORT_ENDGAME_LEFT, MOTOR_GEARSET_6, false);
+A_Motor endgameMotorLeft(PORT_ENDGAME_LEFT, MOTOR_GEARSET_6, false);
 
 A_Motor endgameMotorRight(PORT_ENDGAME_RIGHT, MOTOR_GEARSET_6, true);
 
@@ -171,7 +171,7 @@ void launch(float speed) {
     launcherMotor.move_voltage(0);
     */
    launcherMotor.move_voltage(speed*-120);
-   pros::delay(20);
+   pros::delay(100);
    launcherMotor.move_voltage(speed*-120);
 
   
@@ -190,6 +190,8 @@ void reset_launcher(float speed) {
     launcherMotor.move_voltage(speed * -120);
   } else {
     launcherMotor.move_voltage(speed * 0);
+    launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+    launcherMotor.brake();
   }
 }
 
@@ -226,6 +228,7 @@ void flap_toggle(bool enabled) {
     flapPneumatics.set_value(0);
   }
 }
+
 void lock_toggle(bool enabled) {
   if (enabled) {
     lockPneumatics.set_value(1);
@@ -233,16 +236,22 @@ void lock_toggle(bool enabled) {
 
   } else {
     lockPneumatics.set_value(0);
+    
+
   }
+
 }
+
 // toggles endgame
 void endgame_toggle(bool enabled) {
   if (enabled){
-    endgamMotorLeft.move_voltage(ENDGAME_SPEED*120);
+    endgameMotorLeft.move_voltage(ENDGAME_SPEED*120);
     endgameMotorRight.move_voltage(ENDGAME_SPEED*120);
+
   }else{
-    endgamMotorLeft.move_voltage(ENDGAME_SPEED*-120);
+    endgameMotorLeft.move_voltage(ENDGAME_SPEED*-120);
     endgameMotorRight.move_voltage(ENDGAME_SPEED*-120);
+
   }
 
 
