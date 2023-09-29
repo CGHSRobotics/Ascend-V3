@@ -38,7 +38,8 @@ bool is_red_alliance = false;
 
 float launch_speed = LAUNCH_SPEED;
 
-util::timer endgame_timer(200);
+util::timer endgame_timer(1000);
+util::timer reverse_endgame_timer(1000);
 util::timer intake_timer(2000);
 util::timer launcher_timer(50);
 
@@ -51,9 +52,10 @@ A_Motor intakeMotorLeft(PORT_INTAKE_LEFT, MOTOR_GEARSET_36, false);
 
 A_Motor intakeMotorRight(PORT_INTAKE_RIGHT, MOTOR_GEARSET_36, true);
 
-A_Motor endgameMotorLeft(PORT_ENDGAME_LEFT, MOTOR_GEARSET_6, false);
+A_Motor endgameMotorLeft(PORT_ENDGAME_LEFT, MOTOR_GEARSET_36, false);
 
-A_Motor endgameMotorRight(PORT_ENDGAME_RIGHT, MOTOR_GEARSET_6, true);
+A_Motor endgameMotorRight(PORT_ENDGAME_RIGHT, MOTOR_GEARSET_36, true);
+
 
 /* ========================================================================= */
 /*                              Class Definitions                             */
@@ -159,9 +161,45 @@ bool Btn_Digi::get_press_new() {
 /* -------------------------------------------------------------------------- */
 
 bool curr_launching = false;
+bool reverse_launch_enabled = false;
 util::timer long_launch_timer(650);
 
 // launch triball
+void endgame(float speed){ 
+  endgameMotorLeft.move_voltage(ENDGAME_SPEED * -120);
+  endgameMotorRight.move_voltage(ENDGAME_SPEED * -120);
+  pros::delay(1000);
+  endgameMotorLeft.move_voltage(0);
+  endgameMotorRight.move_voltage(0);
+
+}
+
+void reverse_endgame(float speed){
+  endgameMotorLeft.move_voltage(ENDGAME_SPEED * 120);
+  endgameMotorRight.move_voltage(ENDGAME_SPEED * 120);
+  pros::delay(1000);
+  endgameMotorLeft.move_voltage(0);
+  endgameMotorRight.move_voltage(0);
+
+}
+
+void reverse_endgame_perm(bool enabled){
+  if (enabled){
+    endgameMotorLeft.move_voltage(ENDGAME_SPEED * 120);
+    endgameMotorRight.move_voltage(ENDGAME_SPEED * 120);
+
+
+
+  }else{
+    endgameMotorLeft.move_voltage(ENDGAME_SPEED * 0);
+    endgameMotorRight.move_voltage(ENDGAME_SPEED * 0);
+
+
+
+
+  }
+
+}
 
 void launch(float speed) {
   /*
@@ -174,14 +212,21 @@ void launch(float speed) {
    pros::delay(100);
    launcherMotor.move_voltage(speed*-120);
 
-  
   // Second option
   /*
   while (!launcher_timer.done()) {
     launcherMotor.move_voltage(speed * -120);
   }
   */
-  
+
+}
+
+void reverse_launch(float speed) {
+  launcherMotor.move_voltage(speed*120);
+   pros::delay(100);
+   launcherMotor.move_voltage(speed*120);
+
+
 
 }
 
@@ -214,7 +259,7 @@ void reset_motors() {
   launcher_standby_enabled = false;
 
   flapPneumatics.set_value(false);
-  // endgamePneumatics.set_value(false);
+ 
 }
 
 // toggles flapjack
@@ -242,46 +287,6 @@ void lock_toggle(bool enabled) {
 
 }
 
-// toggles endgame
-void endgame_toggle(bool enabled) {
-  if (enabled){
-    endgameMotorLeft.move_voltage(ENDGAME_SPEED*120);
-    endgameMotorRight.move_voltage(ENDGAME_SPEED*120);
-
-  }else{
-    endgameMotorLeft.move_voltage(ENDGAME_SPEED*-120);
-    endgameMotorRight.move_voltage(ENDGAME_SPEED*-120);
-
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*
-  if (enabled) {
-    endgame_timer.reset();
-    // endgamePneumatics.set_value(1);
-    return;
-  } else {
-    if (endgame_timer.done()) {
-      // endgamePneumatics.set_value(0);
-      return;
-    }
-
-    endgame_timer.update(20);
-    // endgamePneumatics.set_value(1);
-  }
-  */
-}
 
 void intake_toggle(bool enabled) {
   // intake enabled

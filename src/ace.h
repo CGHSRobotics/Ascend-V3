@@ -82,8 +82,8 @@ namespace ace {
 	#define PORT_INTAKE_LEFT 20
 	#define PORT_INTAKE_RIGHT 12
 	#define PORT_LAUNCHER 11
-	#define PORT_ENDGAME_RIGHT 16
 	#define PORT_ENDGAME_LEFT 19
+	#define PORT_ENDGAME_RIGHT 16
 
 	#define PORT_VISION 10
 	#define PORT_IMU 15
@@ -123,6 +123,7 @@ namespace ace {
 	extern bool new_haptic_request_is_master;
 
 	extern util::timer endgame_timer;
+	extern util::timer reverse_endgame_timer;
 	extern util::timer intake_timer;
 	extern util::timer launcher_timer;
 	extern util::timer long_launch_timer;
@@ -156,19 +157,18 @@ namespace ace {
 
 
 	/* ----------------------- User Control Enabled Bools ----------------------- */
-
 	static bool launcher_standby_enabled = false;
 	static bool intake_enabled = false;
 	static bool intake_reverse_enabled = false;
 	//static bool launch_short_enabled = false;
 	//static bool launch_long_enabled = false;
 	static bool launch_enabled = false;
-	static bool endgame_enabled = false;
 	static bool auto_targeting_enabled = false;
 	static bool flap_enabled = false;
 	static bool lock_enabled = false;
 	extern bool is_red_alliance; 
-
+	extern bool reverse_launch_enabled;
+	static bool reverse_endgame_perm_enabled = false;
 	extern float launch_speed;
 
 	/* ------------------------------- SPEEEEEEED ------------------------------- */
@@ -178,9 +178,9 @@ namespace ace {
 	const float INTAKE_SPEED = 100.0;
 
 	// Launcher Speeds
+	const float ENDGAME_SPEED = 50.0;
+	const float LAUNCH_SPEED = 55.0;
 	
-	const float LAUNCH_SPEED = 45.0;
-	const float ENDGAME_SPEED = 80.0;
 	
 	const float LAUNCH_SPEED_STANDBY = LAUNCH_SPEED;
 	const float LAUNCHER_SPEED_CUTOFF = 5;
@@ -238,6 +238,11 @@ namespace ace {
 	// Motor for intake right
 	extern A_Motor intakeMotorRight;
 
+
+	extern A_Motor endgameMotorLeft;
+
+	extern A_Motor endgameMotorRight;
+
 	// Vision sensor
 	const pros::Vision visionSensor(PORT_VISION, pros::E_VISION_ZERO_CENTER);
 
@@ -264,7 +269,7 @@ namespace ace {
 	/* --------------------------------- Master --------------------------------- */
 
 	static Btn_Digi btn_lock(pros::E_CONTROLLER_DIGITAL_Y, cntr_master);
-	// Custom Button for Intake Toggle
+	// Custom Button for Intake Toggle	
 	static Btn_Digi btn_intake_toggle(pros::E_CONTROLLER_DIGITAL_L1, cntr_master);
 
 	// Custom Button for Intake Reverse
@@ -273,19 +278,26 @@ namespace ace {
 	// Custom Button for Launch
 	static Btn_Digi btn_launch(pros::E_CONTROLLER_DIGITAL_R1, cntr_master);
 
-	// Custom Button for Endgame
-	static Btn_Digi btn_endgame(pros::E_CONTROLLER_DIGITAL_DOWN, cntr_master);
+	static Btn_Digi btn_reverse_launch(pros::E_CONTROLLER_DIGITAL_R2, cntr_master);
 
+	
 	// Custom Button for Flapjack Toggle
 	static Btn_Digi btn_flap(pros::E_CONTROLLER_DIGITAL_B, cntr_master);
+
+	static Btn_Digi btn_endgame(pros::E_CONTROLLER_DIGITAL_X, cntr_master);
+
+	static Btn_Digi btn_reverse_endgame(pros::E_CONTROLLER_DIGITAL_A, cntr_master);
+
+	static Btn_Digi btn_reverse_endgame_perm(pros::E_CONTROLLER_DIGITAL_LEFT, cntr_master);
+
 
 	/* ---------------------------------- Both ---------------------------------- */
 
 	// Custom Button for Standby
-	static Btn_Digi btn_standby(pros::E_CONTROLLER_DIGITAL_UP, cntr_both);
+	static Btn_Digi btn_standby(pros::E_CONTROLLER_DIGITAL_UP, cntr_partner);
 
 	// Custom Button to engage Auto Targetting and grab nearest Triball
-	static Btn_Digi btn_auto_targeting(pros::E_CONTROLLER_DIGITAL_LEFT, cntr_both); 
+	static Btn_Digi btn_auto_targeting(pros::E_CONTROLLER_DIGITAL_LEFT, cntr_partner); 
 
 	// Custom Button to engage Auto Targetting
 	//static Bstn_Digi btn_flap(pros::E_CONTROLLER_DIGITAL_Y, cntr_both); //Ross wants it B on partner, fix later
@@ -293,10 +305,10 @@ namespace ace {
 	/* --------------------------------- Partner -------------------------------- */
 
 	// Custom Button to Cycle Auton	
-	static Btn_Digi btn_auton(pros::E_CONTROLLER_DIGITAL_X, cntr_both);
+	static Btn_Digi btn_auton(pros::E_CONTROLLER_DIGITAL_RIGHT, cntr_master);
 
 	// Custom Button to switch alliance 
-	static Btn_Digi btn_alliance(pros::E_CONTROLLER_DIGITAL_A, cntr_both);
+	static Btn_Digi btn_alliance(pros::E_CONTROLLER_DIGITAL_A, cntr_partner);
 
 	// Custom Button that sets launch speed to short launch constant
 	static Btn_Digi btn_launch_speed_short(pros::E_CONTROLLER_DIGITAL_L1, cntr_partner);
@@ -318,10 +330,18 @@ namespace ace {
 
 	/* --------------------------------- Standby -------------------------------- */
 
+	extern void endgame(float speed);
+
+	extern void reverse_endgame(float speed);
+	
+	extern void reverse_endgame_perm(bool enabled);
+
+	extern void reverse_launch(float speed);
 	/**
 	 * @brief 	runs intake forward
 	 *
 	 */
+
 	extern void intake_toggle(bool enabled);
 
 	/**
@@ -352,11 +372,7 @@ namespace ace {
 
 	extern void launch_standby(bool enabled, float speed);
 
-	/**
-	 * @brief	endgame toggle, minimum 200 msec timer on press
-	 *
-	 * @param enabled	bool whether enabled or not
-	 */
+	
 
 	extern void flap_toggle(bool enabled);
 
@@ -367,7 +383,7 @@ namespace ace {
 
 	extern void lock_toggle(bool enabled);
 
-	extern void endgame_toggle(bool enabled);
+	
 
 	/**
 	 * @brief 	calls endgame toggle in skills for auton
@@ -386,6 +402,8 @@ namespace ace {
 	 *
 	 */
 	extern void reset_motors();
+
+	extern void launch_reverse(float speed);
 
 	/* ------------------------------ Vision Sensor ----------------------------- */
 
@@ -505,6 +523,7 @@ namespace ace::auton {
 	extern void turn_chassis(float distance, float speed, bool wait = true);
 
 	extern void endgame_auton();
+
 
 }
 

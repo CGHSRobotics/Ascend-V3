@@ -12,33 +12,14 @@ namespace ace::auton {
 	/*                               Score Auton                                   */
 	/* ========================================================================== */
 	void score() {
-	drive_chassis(12, DRIVE_SPEED);
 	
-	turn_chassis(180, TURN_SPEED);
-	drive_chassis(12, DRIVE_SPEED);
-	intake_toggle(true);
-	pros::delay(1000);
-	intake_toggle(false);
-	turn_chassis(180, TURN_SPEED);
-	drive_chassis(12, DRIVE_SPEED);
-	
-	//Go for more goals?
 	}
 
 	/* ========================================================================== */
 	/*                               Contact Auton                                  */
 	/* ========================================================================== */
 	void contact() {
-	drive_chassis(2, DRIVE_SPEED);
-	intake_toggle(true);
-	pros::delay(1000);
-	intake_toggle(false);
-	drive_chassis(-2, DRIVE_SPEED);
-	//Point to Elevation Bar
-	turn_chassis, (-90, TURN_SPEED);
-	drive_chassis(36, DRIVE_SPEED);
-	turn_chassis(-90, TURN_SPEED);
-	//Endgame TBD
+	
 	}	
 
 
@@ -88,7 +69,7 @@ namespace ace::auton {
 	}
 
 	/* ------------------------------ Roller Auton ------------------------------ */
-	
+	/*
 	void roller_auton(float rollerDegrees) {
 	
 		float actual_degrees = rollerDegrees * 3.0;
@@ -100,6 +81,7 @@ namespace ace::auton {
 			pros::delay(ez::util::DELAY_TIME);
 		}
 	}
+	*/
 	
 	/* --------------------------- Drive Chassis Auton -------------------------- */
 	void drive_chassis(float distance, float speed, bool wait) {
@@ -165,7 +147,7 @@ namespace ace::auton {
 
 	/* ------------------------------ Endgame Auton ----------------------------- */
 	void endgame_auton() {
-
+		/*
 		endgame_toggle(true);
 		while (!endgame_timer.done())
 		{
@@ -173,5 +155,7 @@ namespace ace::auton {
 			endgame_toggle(false);
 		}
 		endgame_toggle(false);
+	}
+	*/
 	}
 }

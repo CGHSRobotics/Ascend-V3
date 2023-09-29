@@ -52,7 +52,6 @@ void initialize()
 	ace::launcherMotor.init();
 	pros::lcd::shutdown();
 
-	ace::endgame_timer.currTime = ace::endgame_timer.maxTime + 100;
 
 	// get ambient light sample
 	ace::ambient_light = ace::lightSensor.get_value();
@@ -117,16 +116,22 @@ void opcontrol()
 		/* -------------------------------- Get Input ------------------------------- */
 		
 		// Intake Toggle
-		if (ace::btn_intake_toggle.get_press_new())
+		if (ace::btn_intake_toggle.get_press())
 		{
-			ace::intake_enabled = !ace::intake_enabled;
-			if (ace::intake_enabled)
-			{
-				ace::update_cntr_haptic("-", false);
-			}
+			ace::intake_enabled = true;
+			ace::intake_reverse_enabled = false;
+			ace::update_cntr_haptic("-", false);
+			
+
+		} else {
+			ace::intake_enabled = false;
 
 		}
-
+		if (ace::btn_reverse_launch.get_press())
+		{
+			ace::reverse_launch(ace::LAUNCH_SPEED);
+			
+		}
 
 		//ace::intake_enabled = ace::btn_intake_toggle.get_press();
 
@@ -154,7 +159,23 @@ void opcontrol()
 			}
 			*/
 		}
+		if (ace::btn_endgame.get_press_new())
+		{
+			ace::endgame(ace::ENDGAME_SPEED);
 
+		}
+
+		if (ace::btn_reverse_endgame.get_press_new())
+		{
+			ace::reverse_endgame(ace::ENDGAME_SPEED);
+
+		}
+
+		if (ace::btn_reverse_endgame_perm.get_press_new())
+		{
+			ace::reverse_endgame_perm_enabled = !ace::reverse_endgame_perm_enabled;
+
+		}
 	/*
 		// Launcher Short
 		bool temp = ace::launch_short_enabled;
@@ -168,8 +189,7 @@ void opcontrol()
 		// Launcher Short
 		ace::launch_long_enabled = ace::btn_launch_long.get_press();
 	*/
-		// Endgame Enabled
-		ace::endgame_enabled = ace::btn_endgame.get_press();
+
 
 		// Flapjack Enabled
 		if (ace::btn_flap.get_press_new())
@@ -259,7 +279,7 @@ void opcontrol()
 		{
 
 			 
-			ace::endgame_toggle(ace::endgame_enabled);
+		
 
 			ace::auto_target(ace::auto_targeting_enabled);
 
@@ -302,6 +322,8 @@ void opcontrol()
 			ace::flap_toggle(ace::flap_enabled);
 
 			ace::lock_toggle(ace::lock_enabled);
+
+			ace::reverse_endgame_perm(ace::reverse_endgame_perm_enabled);
 
 		}
 

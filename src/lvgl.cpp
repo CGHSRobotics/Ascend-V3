@@ -273,27 +273,27 @@ static void init_styles() {
 
   // Style for Screen
   lv_style_copy(&style_screen, &lv_style_plain);
-  style_screen.body.main_color = LV_COLOR_NAVY;
-  style_screen.body.grad_color = LV_COLOR_WHITE;
+  style_screen.body.main_color = LV_COLOR_RED;
+  style_screen.body.grad_color = LV_COLOR_BLACK;
 
   // Style for text
   lv_style_copy(&style_text, &lv_style_pretty);
   style_text.body.main_color = LV_COLOR_WHITE;
-  style_text.body.grad_color = LV_COLOR_NAVY;
+  style_text.body.grad_color = LV_COLOR_RED;
   style_text.text.color = LV_COLOR_BLACK;
   style_text.text.font = &ace_IBMPlexMono_20;
 
   // Style for text
   lv_style_copy(&style_text_title, &style_text);
-  style_text_title.body.main_color = LV_COLOR_NAVY;
+  style_text_title.body.main_color = LV_COLOR_RED;
   style_text_title.body.grad_color = LV_COLOR_WHITE;
   style_text_title.text.color = LV_COLOR_BLACK;
   style_text_title.text.font = &ace_IBMPlexMono_30;
 
   // Style for Empty Container--- Beginning screen//
   lv_style_copy(&style_container_empty, &lv_style_plain);
-  style_container_empty.body.grad_color = LV_COLOR_NAVY;
-  style_container_empty.body.main_color = LV_COLOR_NAVY;
+  style_container_empty.body.grad_color = LV_COLOR_RED;
+  style_container_empty.body.main_color = LV_COLOR_RED;
   style_container_empty.body.border.color = LV_COLOR_GRAY;
   style_container_empty.body.border.width = 0;
   style_container_empty.body.padding.hor = 0;
@@ -302,7 +302,7 @@ static void init_styles() {
 
   // Style for Container with white with text begginign and screen with tabs//
   lv_style_copy(&style_container_red, &lv_style_plain);
-  style_container_red.body.grad_color = LV_COLOR_WHITE;
+  style_container_red.body.grad_color = LV_COLOR_BLACK;
   style_container_red.body.border.color = LV_COLOR_GRAY;
   style_container_red.body.border.width = 2;
   style_container_red.body.radius = 10;
@@ -316,24 +316,24 @@ static void init_styles() {
   style_preload.line.color = LV_COLOR_RED;
   style_preload.body.border.width = 6;
   style_preload.body.padding.hor = 0;
-  style_preload.body.main_color = LV_COLOR_NAVY;
+  style_preload.body.main_color = LV_COLOR_RED;
   style_preload.body.grad_color = LV_COLOR_WHITE;
   style_preload.body.border.color = LV_COLOR_BLACK;
 
   // Bar Style
   lv_style_copy(&style_bar, &lv_style_pretty);
-  style_bar.body.main_color = LV_COLOR_NAVY;
+  style_bar.body.main_color = LV_COLOR_RED;
   style_bar.body.grad_color = LV_COLOR_WHITE;
   style_bar.body.radius = 0;
-  style_bar.body.border.color = LV_COLOR_NAVY;
+  style_bar.body.border.color = LV_COLOR_RED;
 
   // Bar Style Indicator
   lv_style_copy(&style_bar_indic, &lv_style_pretty);
-  style_bar_indic.body.grad_color = LV_COLOR_NAVY;
-  style_bar_indic.body.main_color = LV_COLOR_NAVY;
+  style_bar_indic.body.grad_color = LV_COLOR_RED;
+  style_bar_indic.body.main_color = LV_COLOR_RED;
   style_bar_indic.body.radius = 0;
   style_bar_indic.body.shadow.width = 5;
-  style_bar_indic.body.shadow.color = LV_COLOR_NAVY;
+  style_bar_indic.body.shadow.color = LV_COLOR_RED;
   style_bar_indic.body.padding.hor = 3;
   style_bar_indic.body.padding.ver = 3;
 
@@ -351,8 +351,8 @@ static void init_styles() {
 
   // Tabview BG Style Indicator
   lv_style_copy(&style_tabview_bg, &lv_style_pretty);
-  style_tabview_bg.body.grad_color = LV_COLOR_NAVY;
-  style_tabview_bg.body.main_color = LV_COLOR_NAVY;
+  style_tabview_bg.body.grad_color = LV_COLOR_RED;
+  style_tabview_bg.body.main_color = LV_COLOR_RED;
   style_tabview_bg.body.border.color = LV_COLOR_BLACK;
   style_tabview_bg.body.border.width = 2;
   style_tabview_bg.body.radius = 0;
