@@ -84,15 +84,15 @@ void autonomous()
 
 	ace::reset_motors();
 	ace::reset_launcher(ace::launch_speed);
-	if (curr_auton == "1")
+	if (curr_auton == "score")
 	{
 		ace::auton::score();
 	}
-	else if (curr_auton == "2")
+	else if (curr_auton == "contact")
 	{
 		ace::auton::contact();
 	}
-	else if (curr_auton == "3")
+	else if (curr_auton == "skills")
 	{
 		ace::auton::skills();
 	}

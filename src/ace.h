@@ -177,6 +177,7 @@ namespace ace {
 	const float ROLLER_SPEED = 100.0;
 	const float INTAKE_SPEED = 100.0;
 
+
 	// Launcher Speeds
 	const float ENDGAME_SPEED = 50.0;
 	const float LAUNCH_SPEED = 55.0;
@@ -187,9 +188,11 @@ namespace ace {
 
 	// Chassis Speeds ( * 1.27 to fit in range of [-127, 127])
 	const float DRIVE_SPEED = 87.0 * 1.27; // 87
+	const float AUTON_DRIVE_SPEED = -87.0 * 1.27; // 87
 	const float DRIVE_SPEED_INTAKE = 25.0 * 1.27;
 	//20
 	const float TURN_SPEED = 71.0 * 1.27; // 71
+	const float AUTON_TURN_SPEED = 71.0 * 1.27; // 71
 	const float TURN_SPEED_SLOW = 45.0 * 1.27;
 	extern bool curr_launching;
 
@@ -518,11 +521,13 @@ namespace ace::auton {
 
 	extern void launch_auton(float speed);
 
-	extern void drive_chassis(float distance, float speed, bool wait = true);
+	extern void drive_chassis(float distance, float speed, bool wait);
 
-	extern void turn_chassis(float distance, float speed, bool wait = true);
+	extern void turn_chassis(float distance, float speed, bool wait);
 
 	extern void endgame_auton();
+
+	extern void auton_intake_reverse(float time, float speed);
 
 
 }

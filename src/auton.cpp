@@ -12,7 +12,18 @@ namespace ace::auton {
 	/*                               Score Auton                                   */
 	/* ========================================================================== */
 	void score() {
-	
+		/*
+		drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
+		turn_chassis(90, ace::AUTON_TURN_SPEED, true);
+		auton_intake_reverse(2000, ace::INTAKE_SPEED);
+		turn_chassis(-20, ace::AUTON_TURN_SPEED, true);
+		drive_chassis(20, ace::AUTON_DRIVE_SPEED, true);
+		*/
+		drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
+		turn_chassis(90, ace::AUTON_TURN_SPEED, true);
+		auton_intake_reverse(2000, ace::INTAKE_SPEED);
+		turn_chassis(270, ace::AUTON_TURN_SPEED, true);
+		drive_chassis(-50, ace::AUTON_DRIVE_SPEED, true);
 	}
 
 	/* ========================================================================== */
@@ -88,57 +99,27 @@ namespace ace::auton {
 
 		bool slew_enabled = distance >= 14;
 		chassis.set_drive_pid(distance, speed, slew_enabled);
-		if (wait)
-		{
+		if (wait) { 
 			chassis.wait_drive();
+
+
+
 		}
 	}
 
 	/* --------------------------- Turn Chassis Auton --------------------------- */
 	void turn_chassis(float angle, float speed, bool wait) {
 		chassis.set_turn_pid(angle, speed);
-		if (wait)
-		{
+		if (wait) { 
 			chassis.wait_drive();
+
+
+
 		}
 	}
 
 	/* ------------------------------ Launch Auton ------------------------------ */
-	/*void launch_auton(float time, float speed, bool isLong, bool early_exit) {
-
-		ace::util::timer launch_timer(time);
-
-		int launchedCounter = 0;
-		while (1)
-		{
-			//launch(speed, isLong);
-			  launch(speed);
-			// detect if disk launched
-			if (light_sensor_detect())
-			{
-				launchedCounter++;
-				long_launch_timer.reset();
-			}
-
-			// if 3, exit
-			if (launchedCounter >= 3 && early_exit)
-			{
-				//break;
-			}
-
-			// Timer
-			launch_timer.update(ez::util::DELAY_TIME);
-			if (launch_timer.done())
-			{
-				break;
-			}
-
-			pros::delay(ez::util::DELAY_TIME);
-		}
-		launcherMotor.spin_percent(0);
-	}
-	*/
-
+	
 	void launch_auton(float speed)
 	{
 		ace::launch(speed);
@@ -147,15 +128,14 @@ namespace ace::auton {
 
 	/* ------------------------------ Endgame Auton ----------------------------- */
 	void endgame_auton() {
-		/*
-		endgame_toggle(true);
-		while (!endgame_timer.done())
-		{
-			pros::delay(ez::util::DELAY_TIME);
-			endgame_toggle(false);
-		}
-		endgame_toggle(false);
+	
 	}
-	*/
+
+	void auton_intake_reverse(float time, float speed) {
+		ace::intakeMotorLeft.spin_percent(speed);
+		pros::delay(time);
+		ace::intakeMotorLeft.spin_percent(0);
+
+
 	}
 }

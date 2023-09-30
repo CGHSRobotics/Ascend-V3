@@ -320,10 +320,10 @@ void auto_target(bool enabled) {
       chassis.reset_gyro();
       chassis.set_turn_pid(theta, 0.5 * 127.0);
       // Have to figure out finding correct distance , or have Ross adjust manually using preset
-      auton::drive_chassis(1, DRIVE_SPEED);
+      auton::drive_chassis(1, DRIVE_SPEED, true);
     } else {
       // Have to figure out finding correct distance , or have Ross adjust manually using preset
-      auton::drive_chassis(1, DRIVE_SPEED);
+      auton::drive_chassis(1, DRIVE_SPEED, true);
     }
   }
 }
