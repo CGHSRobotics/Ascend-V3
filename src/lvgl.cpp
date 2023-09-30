@@ -15,7 +15,7 @@ namespace ace::lvgl {
 
 /* ------------------------------ File Drivers ------------------------------ */
 typedef FILE* pc_file_t;
-
+// Bar style for spped is 344, decleration is 548
 static lv_fs_res_t pcfs_open(void* file_p, const char* fn, lv_fs_mode_t mode);
 static lv_fs_res_t pcfs_close(void* file_p);
 static lv_fs_res_t pcfs_read(void* file_p, void* buf, uint32_t btr, uint32_t* br);
@@ -322,7 +322,7 @@ static void init_styles() {
 
   // Bar Style
   lv_style_copy(&style_bar, &lv_style_pretty);
-  style_bar.body.main_color = LV_COLOR_RED;
+  style_bar.body.main_color = LV_COLOR_ORANGE;
   style_bar.body.grad_color = LV_COLOR_WHITE;
   style_bar.body.radius = 0;
   style_bar.body.border.color = LV_COLOR_RED;
