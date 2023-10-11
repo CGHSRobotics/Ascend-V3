@@ -46,7 +46,7 @@ util::timer launcher_timer(50);
 // leds
 // pros::ADILed led(PORT_LED, 60);
 
-A_Motor launcherMotor(PORT_LAUNCHER, MOTOR_GEARSET_36, false);
+A_Motor launcherMotor(PORT_LAUNCHER, MOTOR_GEARSET_36, true);
 
 A_Motor intakeMotorLeft(PORT_INTAKE_LEFT, MOTOR_GEARSET_36, false);
 
@@ -55,7 +55,6 @@ A_Motor intakeMotorRight(PORT_INTAKE_RIGHT, MOTOR_GEARSET_36, true);
 A_Motor endgameMotorLeft(PORT_ENDGAME_LEFT, MOTOR_GEARSET_36, false);
 
 A_Motor endgameMotorRight(PORT_ENDGAME_RIGHT, MOTOR_GEARSET_36, true);
-
 
 /* ========================================================================= */
 /*                              Class Definitions                             */
@@ -165,40 +164,31 @@ bool reverse_launch_enabled = false;
 util::timer long_launch_timer(650);
 
 // launch triball
-void endgame(float speed){ 
+void endgame(float speed) {
   endgameMotorLeft.move_voltage(ENDGAME_SPEED * -120);
   endgameMotorRight.move_voltage(ENDGAME_SPEED * -120);
   pros::delay(1000);
   endgameMotorLeft.move_voltage(0);
   endgameMotorRight.move_voltage(0);
-
 }
 
-void reverse_endgame(float speed){
+void reverse_endgame(float speed) {
   endgameMotorLeft.move_voltage(ENDGAME_SPEED * 120);
   endgameMotorRight.move_voltage(ENDGAME_SPEED * 120);
   pros::delay(1000);
   endgameMotorLeft.move_voltage(0);
   endgameMotorRight.move_voltage(0);
-
 }
 
-void reverse_endgame_perm(bool enabled){
-  if (enabled){
+void reverse_endgame_perm(bool enabled) {
+  if (enabled) {
     endgameMotorLeft.move_voltage(ENDGAME_SPEED * 120);
     endgameMotorRight.move_voltage(ENDGAME_SPEED * 120);
 
-
-
-  }else{
+  } else {
     endgameMotorLeft.move_voltage(ENDGAME_SPEED * 0);
     endgameMotorRight.move_voltage(ENDGAME_SPEED * 0);
-
-
-
-
   }
-
 }
 
 void launch(float speed) {
@@ -208,9 +198,9 @@ void launch(float speed) {
   if (launcher_timer.done()) {
     launcherMotor.move_voltage(0);
     */
-   launcherMotor.move_voltage(speed*-120);
-   pros::delay(100);
-   launcherMotor.move_voltage(speed*-120);
+  launcherMotor.move_voltage(speed * -120);
+  pros::delay(100);
+  launcherMotor.move_voltage(speed * -120);
 
   // Second option
   /*
@@ -218,16 +208,12 @@ void launch(float speed) {
     launcherMotor.move_voltage(speed * -120);
   }
   */
-
 }
 
 void reverse_launch(float speed) {
-  launcherMotor.move_voltage(speed*120);
-   pros::delay(100);
-   launcherMotor.move_voltage(speed*120);
-
-
-
+  launcherMotor.move_voltage(speed * 120);
+  pros::delay(100);
+  launcherMotor.move_voltage(speed * 120);
 }
 
 void reset_launcher(float speed) {
@@ -254,12 +240,11 @@ void launch_standby(bool enabled, float speed) {
 void reset_motors() {
   launcherMotor.move_voltage(0);
   intakeMotorLeft.move_voltage(0);
-  //intakeMotorRight.move_voltage(0);
+  // intakeMotorRight.move_voltage(0);
 
   launcher_standby_enabled = false;
 
   flapPneumatics.set_value(false);
- 
 }
 
 // toggles flapjack
@@ -281,31 +266,27 @@ void lock_toggle(bool enabled) {
 
   } else {
     lockPneumatics.set_value(0);
-    
-
   }
-
 }
-
 
 void intake_toggle(bool enabled) {
   // intake enabled
   if (enabled) {
     intakeMotorLeft.spin_percent(-INTAKE_SPEED);
-    //intakeMotorRight.spin_percent(-INTAKE_SPEED);
+    // intakeMotorRight.spin_percent(-INTAKE_SPEED);
   }
 
   // Not enabled
   else {
     intake_timer.reset();
     intakeMotorLeft.spin_percent(0);
-   //intakeMotorRight.spin_percent(0);
+    // intakeMotorRight.spin_percent(0);
   }
 }
 
 void intake_reverse() {
   intakeMotorLeft.spin_percent(INTAKE_SPEED);
-  //intakeMotorRight.spin_percent(INTAKE_SPEED);
+  // intakeMotorRight.spin_percent(INTAKE_SPEED);
 }
 
 /* ------------------------------ Vision Sensor ----------------------------- */
