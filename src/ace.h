@@ -89,10 +89,10 @@ namespace ace {
 /* ------------------------------- ADI Devices ------------------------------ */
 
 #define PORT_PNEU_LOCK \
-  { INTERNAL_ADI_PORT, 'F' }
+  { INTERNAL_ADI_PORT, 'G' }
 
 #define PORT_PNEU_FLAP \
-  { INTERNAL_ADI_PORT, 'G' }
+  { INTERNAL_ADI_PORT, 'H' }
 
 #define PORT_SENSOR_LIGHT \
   { INTERNAL_ADI_PORT, 'D' }
