@@ -89,10 +89,10 @@ namespace ace {
 /* ------------------------------- ADI Devices ------------------------------ */
 
 #define PORT_PNEU_LOCK \
-  { INTERNAL_ADI_PORT, 'G' }
+  { INTERNAL_ADI_PORT, 'F' }
 
 #define PORT_PNEU_FLAP \
-  { INTERNAL_ADI_PORT, 'H' }
+  { INTERNAL_ADI_PORT, 'G' }
 
 #define PORT_SENSOR_LIGHT \
   { INTERNAL_ADI_PORT, 'D' }
@@ -265,7 +265,7 @@ extern pros::ADILed led;
 
 /* --------------------------------- Master --------------------------------- */
 
-static Btn_Digi btn_lock(pros::E_CONTROLLER_DIGITAL_UP, cntr_master);
+static Btn_Digi btn_lock(pros::E_CONTROLLER_DIGITAL_B, cntr_master);
 // Custom Button for Intake Toggle
 static Btn_Digi btn_intake_toggle(pros::E_CONTROLLER_DIGITAL_L1, cntr_master);
 
@@ -280,11 +280,11 @@ static Btn_Digi btn_reverse_launch(pros::E_CONTROLLER_DIGITAL_R2, cntr_master);
 // Custom Button for Flapjack Toggle
 static Btn_Digi btn_flap(pros::E_CONTROLLER_DIGITAL_Y, cntr_master);
 
-static Btn_Digi btn_endgame(pros::E_CONTROLLER_DIGITAL_A, cntr_master);
+static Btn_Digi btn_endgame(pros::E_CONTROLLER_DIGITAL_UP, cntr_master);
 
 static Btn_Digi btn_reverse_endgame(pros::E_CONTROLLER_DIGITAL_LEFT, cntr_master);
 
-static Btn_Digi btn_reverse_endgame_perm(pros::E_CONTROLLER_DIGITAL_B, cntr_master);
+static Btn_Digi btn_reverse_endgame_perm(pros::E_CONTROLLER_DIGITAL_B, cntr_partner);
 
 /* ---------------------------------- Both ---------------------------------- */
 
