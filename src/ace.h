@@ -78,13 +78,13 @@ namespace ace {
 
 /* ------------------------- Other Motors / Devices ------------------------- */
 #define PORT_INTAKE_LEFT 20
-#define PORT_INTAKE_RIGHT 12
+#define PORT_INTAKE_RIGHT 15
 #define PORT_LAUNCHER 11
 #define PORT_ENDGAME_LEFT 19
 #define PORT_ENDGAME_RIGHT 16
 
 #define PORT_VISION 10
-#define PORT_IMU 15
+#define PORT_IMU 12
 
 /* ------------------------------- ADI Devices ------------------------------ */
 
@@ -391,6 +391,8 @@ extern void endgame_auton();
  * @brief 	calls endgame toggle in skills for auton
  *
  */
+extern void intake_pneu_auton();
+
 extern void cata_toggle(bool enabled);
 
 /**

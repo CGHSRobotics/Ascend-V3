@@ -216,7 +216,7 @@ void reverse_launch(float speed) {
   launcherMotor.move_voltage(speed * 120);
 }
 
-void reset_launcher(float speed) {
+void                        reset_launcher(float speed) {
   if (!limit.get_value()) {
     launcherMotor.move_voltage(speed * -120);
   } else {

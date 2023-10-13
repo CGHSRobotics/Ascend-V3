@@ -12,23 +12,18 @@ int auton_selection_index = 0;
 /*                               Score Auton                                   */
 /* ========================================================================== */
 void score() {
-  
-  drive_chassis(60, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(90, ace::AUTON_TURN_SPEED, true);
-  auton_intake_reverse(2000, ace::INTAKE_SPEED);
-  turn_chassis(270, ace::AUTON_TURN_SPEED, true);
-  drive_chassis(-50, ace::AUTON_DRIVE_SPEED, true);
+  drive_chassis(22, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-40, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(25, ace::AUTON_DRIVE_SPEED, true);
 }
 
 /* ========================================================================== */
 /*                               Contact Auton                                  */
 /* ========================================================================== */
 void contact() {
-  drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(-90, ace::AUTON_TURN_SPEED, true);
-  auton_intake_reverse(2000, ace::INTAKE_SPEED);
-  turn_chassis(270, ace::AUTON_TURN_SPEED, true);
-  drive_chassis(50, ace::AUTON_DRIVE_SPEED, true);
+  drive_chassis(22, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(40, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(25, ace::AUTON_DRIVE_SPEED, true);
 }
 
 /* ========================================================================== */
@@ -51,11 +46,13 @@ void two_side() {
 /*                                   Skills                                   */
 /* ========================================================================== */
 void skills() {
+  /*
   drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
   turn_chassis(90, ace::AUTON_TURN_SPEED, true);
   auton_intake_reverse(2000, ace::INTAKE_SPEED);
   turn_chassis(270, ace::AUTON_TURN_SPEED, true);
   drive_chassis(-50, ace::AUTON_DRIVE_SPEED, true);
+  */
 }
 
 /* ========================================================================== */
@@ -125,4 +122,8 @@ void auton_intake_reverse(float time, float speed) {
   pros::delay(time);
   ace::intakeMotorLeft.spin_percent(0);
 }
+void intake_pneu_auton() {
+  ace::intake_pneu_enabled = !ace::intake_pneu_enabled;
+}
 }  // namespace ace::auton
+   // namespace ace::auton
