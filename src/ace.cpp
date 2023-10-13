@@ -259,13 +259,23 @@ void flap_toggle(bool enabled) {
   }
 }
 
-void lock_toggle(bool enabled) {
+void endgame_toggle(bool enabled) {
   if (enabled) {
-    lockPneumatics.set_value(1);
+    endgamePneumatics.set_value(1);
     return;
 
   } else {
-    lockPneumatics.set_value(0);
+    endgamePneumatics.set_value(0);
+  }
+}
+
+void intake_pneu_toggle(bool enabled) {
+  if (enabled) {
+    intakePneumatics.set_value(1);
+    return;
+
+  } else {
+    intakePneumatics.set_value(0);
   }
 }
 

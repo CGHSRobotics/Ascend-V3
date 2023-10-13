@@ -88,11 +88,14 @@ namespace ace {
 
 /* ------------------------------- ADI Devices ------------------------------ */
 
-#define PORT_PNEU_LOCK \
-  { INTERNAL_ADI_PORT, 'G' }
+#define PORT_PNEU_ENDGAME \
+  { INTERNAL_ADI_PORT, 'F' }
+
+#define PORT_PNEU_INTAKE \
+  { INTERNAL_ADI_PORT, 'H' }
 
 #define PORT_PNEU_FLAP \
-  { INTERNAL_ADI_PORT, 'H' }
+  { INTERNAL_ADI_PORT, 'G' }
 
 #define PORT_SENSOR_LIGHT \
   { INTERNAL_ADI_PORT, 'D' }
@@ -103,6 +106,7 @@ namespace ace {
 #define PORT_LIMIT \
   { INTERNAL_ADI_PORT, 'A' }
 
+// f is endgame
 /* ========================================================================== */
 /*                              Global Variables                              */
 /* ========================================================================== */
@@ -165,7 +169,8 @@ static bool intake_reverse_enabled = false;
 static bool launch_enabled = false;
 static bool auto_targeting_enabled = false;
 static bool flap_enabled = false;
-static bool lock_enabled = false;
+static bool endgame_enabled = false;
+static bool intake_pneu_enabled = false;
 extern bool is_red_alliance;
 extern bool reverse_launch_enabled;
 static bool reverse_endgame_perm_enabled = false;
@@ -176,6 +181,7 @@ extern float launch_speed;
 // Misc Speeds
 const float ROLLER_SPEED = 100.0;
 const float INTAKE_SPEED = 100.0;
+const float AUTON_INTAKE_SPEED = 50.0;
 
 // Launcher Speeds
 const float ENDGAME_SPEED = 50.0;
@@ -250,7 +256,9 @@ const pros::IMU imuSensor(PORT_IMU);
 // Flap Pneumatics
 const pros::ADIDigitalOut flapPneumatics(PORT_PNEU_FLAP, false);
 
-const pros::ADIDigitalOut lockPneumatics(PORT_PNEU_LOCK, false);
+const pros::ADIDigitalOut endgamePneumatics(PORT_PNEU_ENDGAME, false);
+
+const pros::ADIDigitalOut intakePneumatics(PORT_PNEU_INTAKE, false);
 
 const pros::ADIDigitalIn limit(PORT_LIMIT);
 
@@ -265,7 +273,9 @@ extern pros::ADILed led;
 
 /* --------------------------------- Master --------------------------------- */
 
-static Btn_Digi btn_lock(pros::E_CONTROLLER_DIGITAL_B, cntr_master);
+static Btn_Digi btn_intake_pneu(pros::E_CONTROLLER_DIGITAL_Y, cntr_master);
+
+static Btn_Digi btn_endgame(pros::E_CONTROLLER_DIGITAL_UP, cntr_master);
 // Custom Button for Intake Toggle
 static Btn_Digi btn_intake_toggle(pros::E_CONTROLLER_DIGITAL_L1, cntr_master);
 
@@ -278,13 +288,9 @@ static Btn_Digi btn_launch(pros::E_CONTROLLER_DIGITAL_R1, cntr_master);
 static Btn_Digi btn_reverse_launch(pros::E_CONTROLLER_DIGITAL_R2, cntr_master);
 
 // Custom Button for Flapjack Toggle
-static Btn_Digi btn_flap(pros::E_CONTROLLER_DIGITAL_Y, cntr_master);
+static Btn_Digi btn_flap(pros::E_CONTROLLER_DIGITAL_B, cntr_master);
 
-static Btn_Digi btn_endgame(pros::E_CONTROLLER_DIGITAL_UP, cntr_master);
-
-static Btn_Digi btn_reverse_endgame(pros::E_CONTROLLER_DIGITAL_LEFT, cntr_master);
-
-static Btn_Digi btn_reverse_endgame_perm(pros::E_CONTROLLER_DIGITAL_B, cntr_partner);
+static Btn_Digi btn_auton(pros::E_CONTROLLER_DIGITAL_RIGHT, cntr_master);
 
 /* ---------------------------------- Both ---------------------------------- */
 
@@ -299,8 +305,10 @@ static Btn_Digi btn_auto_targeting(pros::E_CONTROLLER_DIGITAL_LEFT, cntr_partner
 
 /* --------------------------------- Partner -------------------------------- */
 
+static Btn_Digi btn_reverse_endgame(pros::E_CONTROLLER_DIGITAL_LEFT, cntr_master);
+
+static Btn_Digi btn_reverse_endgame_perm(pros::E_CONTROLLER_DIGITAL_B, cntr_partner);
 // Custom Button to Cycle Auton
-static Btn_Digi btn_auton(pros::E_CONTROLLER_DIGITAL_RIGHT, cntr_master);
 
 // Custom Button to switch alliance
 static Btn_Digi btn_alliance(pros::E_CONTROLLER_DIGITAL_A, cntr_partner);
@@ -364,12 +372,14 @@ extern void launch_standby(bool enabled, float speed);
 
 extern void flap_toggle(bool enabled);
 
+extern void intake_pneu_toggle(bool enabled);
+
 /**
  * @brief 	calls flapjack toggle
  *
  */
 
-extern void lock_toggle(bool enabled);
+extern void endgame_toggle(bool enabled);
 
 /**
  * @brief 	calls endgame toggle in skills for auton
