@@ -216,7 +216,7 @@ void reverse_launch(float speed) {
   launcherMotor.move_voltage(speed * 120);
 }
 
-void                        reset_launcher(float speed) {
+void reset_launcher(float speed) {
   if (!limit.get_value()) {
     launcherMotor.move_voltage(speed * -120);
   } else {
@@ -276,6 +276,15 @@ void intake_pneu_toggle(bool enabled) {
 
   } else {
     intakePneumatics.set_value(0);
+  }
+}
+
+void launch_speed_toggle(bool enabled) {
+  if (enabled) {
+    ace::launch_speed = 55.0;
+
+  } else {
+    ace::launch_speed = 80.0;
   }
 }
 

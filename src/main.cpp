@@ -141,6 +141,10 @@ void opcontrol() {
       */
     }
 
+    if (ace::btn_launch_speed_toggle.get_press_new()) {
+      ace::launch_speed_toggle_enabled = !ace::launch_speed_toggle_enabled;
+    }
+
     if (ace::btn_reverse_endgame.get_press_new()) {
       ace::reverse_endgame(ace::ENDGAME_SPEED);
     }
@@ -267,6 +271,13 @@ void opcontrol() {
         ace::intakeMotorLeft.spin_percent(0);
       }
 
+      if (ace::launch_speed_toggle_enabled) {
+        ace::launch_speed_toggle(true);
+
+      } else {
+           ace::launch_speed_toggle(false);
+      }
+      
       // flapjack
       ace::flap_toggle(ace::flap_enabled);
 

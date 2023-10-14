@@ -175,6 +175,7 @@ extern bool is_red_alliance;
 extern bool reverse_launch_enabled;
 static bool reverse_endgame_perm_enabled = false;
 extern float launch_speed;
+static bool launch_speed_toggle_enabled = false;
 
 /* ------------------------------- SPEEEEEEED ------------------------------- */
 
@@ -185,7 +186,7 @@ const float AUTON_INTAKE_SPEED = 50.0;
 
 // Launcher Speeds
 const float ENDGAME_SPEED = 50.0;
-const float LAUNCH_SPEED = 55.0;
+extern float LAUNCH_SPEED = 55.0;
 
 const float LAUNCH_SPEED_STANDBY = LAUNCH_SPEED;
 const float LAUNCHER_SPEED_CUTOFF = 5;
@@ -273,6 +274,8 @@ extern pros::ADILed led;
 
 /* --------------------------------- Master --------------------------------- */
 
+static Btn_Digi btn_launch_speed_toggle(pros::E_CONTROLLER_DIGITAL_DOWN, cntr_master);
+
 static Btn_Digi btn_intake_pneu(pros::E_CONTROLLER_DIGITAL_Y, cntr_master);
 
 static Btn_Digi btn_endgame(pros::E_CONTROLLER_DIGITAL_UP, cntr_master);
@@ -330,6 +333,8 @@ static Btn_Digi btn_launch_speed_decrease(pros::E_CONTROLLER_DIGITAL_R2, cntr_pa
 /* ========================================================================== */
 
 /* --------------------------------- Standby -------------------------------- */
+
+extern void launch_speed_toggle(bool enabled);
 
 extern void endgame(float speed);
 
