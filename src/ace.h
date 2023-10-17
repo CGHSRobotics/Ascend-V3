@@ -186,7 +186,8 @@ const float AUTON_INTAKE_SPEED = 50.0;
 
 // Launcher Speeds
 const float ENDGAME_SPEED = 50.0;
-extern float LAUNCH_SPEED = 55.0;
+const float LAUNCH_SPEED = 70.0;
+const float LAUNCH_SPEED_LONG = 80;
 
 const float LAUNCH_SPEED_STANDBY = LAUNCH_SPEED;
 const float LAUNCHER_SPEED_CUTOFF = 5;
@@ -274,7 +275,9 @@ extern pros::ADILed led;
 
 /* --------------------------------- Master --------------------------------- */
 
-static Btn_Digi btn_launch_speed_toggle(pros::E_CONTROLLER_DIGITAL_DOWN, cntr_master);
+static Btn_Digi btn_launch_speed_toggle(pros::E_CONTROLLER_DIGITAL_DOWN, cntr_partner);
+
+static Btn_Digi btn_long_launch(pros::E_CONTROLLER_DIGITAL_DOWN, cntr_master);
 
 static Btn_Digi btn_intake_pneu(pros::E_CONTROLLER_DIGITAL_Y, cntr_master);
 
@@ -370,6 +373,10 @@ extern void launch(float speed);
  * @param enabled	bool whether enabled
  * @param speed		speed % on how fast standby is
  */
+
+extern void launch_long(float speed);
+
+extern void long_launch(float speed);
 
 extern void reset_launcher(float speed);
 

@@ -168,12 +168,12 @@ static void brain_screen_update() {
   while (1) {
     if (has_init) {
       // Launcher Slider
-      /*
+      
       int launch_rpm = ace::launcherMotor.get_actual_velocity() * 6;
       lv_bar_set_value(main_bar, launch_rpm);
       lv_label_set_text(main_bar_label, std::to_string(launch_rpm).c_str());
       lv_obj_align(main_bar_label, NULL, LV_ALIGN_IN_TOP_LEFT, 50, (1 - ((float)lv_bar_get_value(main_bar) / 3600.0)) * 220 + 5);
-      */
+      
       // Main Screen Text
       lv_label_set_text(menu_tab1_cont1_battery_label,
                         (

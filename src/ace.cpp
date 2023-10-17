@@ -210,6 +210,15 @@ void launch(float speed) {
   */
 }
 
+void long_launch(float speed) {
+
+launcherMotor.move_voltage(speed * -120);
+pros::delay(100);
+launcherMotor.move_voltage(speed * -120);
+
+
+}
+
 void reverse_launch(float speed) {
   launcherMotor.move_voltage(speed * 120);
   pros::delay(100);
