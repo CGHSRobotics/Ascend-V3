@@ -211,12 +211,9 @@ void launch(float speed) {
 }
 
 void long_launch(float speed) {
-
-launcherMotor.move_voltage(speed * -120);
-pros::delay(100);
-launcherMotor.move_voltage(speed * -120);
-
-
+  launcherMotor.move_voltage(speed * -120);
+  pros::delay(100);
+  launcherMotor.move_voltage(speed * -120);
 }
 
 void reverse_launch(float speed) {
@@ -226,6 +223,19 @@ void reverse_launch(float speed) {
 }
 
 void reset_launcher(float speed) {
+  // launcherMotor.move_voltage(speed * -120);
+
+  if (rotate.get_angle() >= 5975) {
+    // auncherMotor.move_voltage(speed * -120);
+
+    launcherMotor.move_voltage(speed * 0);
+    launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+    launcherMotor.brake();
+
+  } else {
+    launcherMotor.move_voltage(speed * -120);
+  }
+  /*
   if (!limit.get_value()) {
     launcherMotor.move_voltage(speed * -120);
   } else {
@@ -233,11 +243,17 @@ void reset_launcher(float speed) {
     launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
     launcherMotor.brake();
   }
+  */
 }
+// starts
+// 359.82
+// ends
+// 57.65
 
 // launch standby
 void launch_standby(bool enabled, float speed) {
   curr_launching = false;
+
   if (enabled)
     launcherMotor.move_velocity(speed * 6);
 

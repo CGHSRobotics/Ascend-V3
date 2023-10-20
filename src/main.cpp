@@ -50,6 +50,9 @@ void initialize() {
   ace::launcherMotor.init();
   pros::lcd::shutdown();
 
+  // Reset rotate sensor position to 0
+  ace::rotate.reset_position();
+
   // get ambient light sample
   ace::ambient_light = ace::lightSensor.get_value();
 
@@ -78,9 +81,10 @@ void autonomous() {
   std::string curr_auton = ace::auton::auton_selection[ace::auton::auton_selection_index];
 
   ace::reset_motors();
-  ace::reset_launcher(ace::launch_speed);
+  // ace::reset_launcher(ace::launch_speed);
+  //  ace::intake_toggle(ace::intake_enabled);
   ace::auton::contact();
-  ace::intake_pneu_toggle(ace::intake_pneu_enabled);
+  // ace::intake_pneu_toggle(ace::intake_pneu_enabled);
   /*
   if (curr_auton == "score") {
     ace::auton::score();

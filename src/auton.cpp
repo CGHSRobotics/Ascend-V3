@@ -12,9 +12,16 @@ int auton_selection_index = 0;
 /*                               Score Auton                                   */
 /* ========================================================================== */
 void score() {
+  // grab triball
+  ace::intake_pneu_enabled = true;
+  ace::intake_enabled = true;
+  drive_chassis(4, ace::AUTON_DRIVE_SPEED, true);
+
+  /*
   drive_chassis(22, ace::AUTON_DRIVE_SPEED, true);
   turn_chassis(-40, ace::AUTON_TURN_SPEED, true);
   drive_chassis(25, ace::AUTON_DRIVE_SPEED, true);
+  */
 }
 
 /* ========================================================================== */
@@ -24,6 +31,8 @@ void contact() {
   drive_chassis(22, ace::AUTON_DRIVE_SPEED, true);
   turn_chassis(40, ace::AUTON_TURN_SPEED, true);
   drive_chassis(25, ace::AUTON_DRIVE_SPEED, true);
+  drive_chassis(-20, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(180, ace::AUTON_TURN_SPEED, true);
 }
 
 /* ========================================================================== */

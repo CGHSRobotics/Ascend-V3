@@ -83,8 +83,9 @@ namespace ace {
 #define PORT_ENDGAME_LEFT 19
 #define PORT_ENDGAME_RIGHT 16
 
-#define PORT_VISION 10
+#define PORT_VISION 20
 #define PORT_IMU 12
+#define PORT_ROTATION 10
 
 /* ------------------------------- ADI Devices ------------------------------ */
 
@@ -186,7 +187,7 @@ const float AUTON_INTAKE_SPEED = 50.0;
 
 // Launcher Speeds
 const float ENDGAME_SPEED = 50.0;
-const float LAUNCH_SPEED = 70.0;
+const float LAUNCH_SPEED = 95.0;
 const float LAUNCH_SPEED_LONG = 80;
 
 const float LAUNCH_SPEED_STANDBY = LAUNCH_SPEED;
@@ -236,6 +237,7 @@ class Btn_Digi {
 
 /* ------------------------- Other Motors / Devices ------------------------- */
 
+static pros::Rotation rotate(PORT_ROTATION);
 // Launcher motor
 extern A_Motor launcherMotor;
 
