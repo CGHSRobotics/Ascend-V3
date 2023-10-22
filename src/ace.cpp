@@ -225,7 +225,7 @@ void reverse_launch(float speed) {
 void reset_launcher(float speed) {
   // launcherMotor.move_voltage(speed * -120);
 
-  if (rotate.get_angle() >= 5975) {
+  if (rotate.get_angle() >= 5700) {
     // auncherMotor.move_voltage(speed * -120);
 
     launcherMotor.move_voltage(speed * 0);

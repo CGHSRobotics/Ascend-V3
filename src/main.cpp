@@ -52,6 +52,7 @@ void initialize() {
 
   // Reset rotate sensor position to 0
   ace::rotate.reset_position();
+  // ace::reset_launcher(ace::LAUNCH_SPEED);
 
   // get ambient light sample
   ace::ambient_light = ace::lightSensor.get_value();
@@ -78,13 +79,16 @@ void autonomous() {
   chassis.reset_drive_sensor();               // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency.
 
-  std::string curr_auton = ace::auton::auton_selection[ace::auton::auton_selection_index];
+  // std::string curr_auton = ace::auton::auton_selection[ace::auton::auton_selection_index];
 
+  // ace::launcher_timer.reset();
+  // ace::rotate.reset_position();
+  ace::reset_launcher(ace::LAUNCH_SPEED);
   ace::reset_motors();
-  // ace::reset_launcher(ace::launch_speed);
-  //  ace::intake_toggle(ace::intake_enabled);
+  ace::intake_toggle(ace::intake_enabled);
   ace::auton::contact();
-  // ace::intake_pneu_toggle(ace::intake_pneu_enabled);
+  // ace::auton::skills();
+  ace::intake_pneu_toggle(ace::intake_pneu_enabled);
   /*
   if (curr_auton == "score") {
     ace::auton::score();

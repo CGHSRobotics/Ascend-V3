@@ -187,7 +187,7 @@ const float AUTON_INTAKE_SPEED = 50.0;
 
 // Launcher Speeds
 const float ENDGAME_SPEED = 50.0;
-const float LAUNCH_SPEED = 95.0;
+const float LAUNCH_SPEED = 90.0;
 const float LAUNCH_SPEED_LONG = 80;
 
 const float LAUNCH_SPEED_STANDBY = LAUNCH_SPEED;
@@ -338,6 +338,8 @@ static Btn_Digi btn_launch_speed_decrease(pros::E_CONTROLLER_DIGITAL_R2, cntr_pa
 /* ========================================================================== */
 
 /* --------------------------------- Standby -------------------------------- */
+
+extern void intake_pneu_auton();
 
 extern void launch_speed_toggle(bool enabled);
 
