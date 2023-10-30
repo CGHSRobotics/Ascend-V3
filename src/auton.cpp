@@ -29,6 +29,9 @@ void score() {
 /* ========================================================================== */
 void contact() {
   // ace::reset_launcher(ace::launch_speed);
+  launcherMotor.move_voltage(0);
+  launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  launcherMotor.brake();
   drive_chassis(22, ace::AUTON_DRIVE_SPEED, true);
   turn_chassis(40, ace::AUTON_TURN_SPEED, true);
   drive_chassis(23, ace::AUTON_DRIVE_SPEED, true);
@@ -47,10 +50,11 @@ void contact() {
   ace::launch(ace::LAUNCH_SPEED);
   pros::delay(500);
   ace::launch(0);
-  turn_chassis(110, ace::AUTON_TURN_SPEED, true);
-  launcherMotor.move_voltage(ace::LAUNCH_SPEED * -120);
-  pros::delay(300);
+  /*
+  ace::launcherMotor.move_voltage(ace::LAUNCH_SPEED * -120);
+  pros::delay(285);
   launcherMotor.move_voltage(0);
+  turn_chassis(100, ace::AUTON_TURN_SPEED, true);
   // reset_launcher(ace::LAUNCH_SPEED);
   drive_chassis(25, ace::AUTON_DRIVE_SPEED, true);
   pros::delay(1000);
@@ -60,6 +64,7 @@ void contact() {
   pros::delay(500);
   ace::launch(0);
   ace::intake_toggle(false);
+  */
   // drive_chassis(-5, ace::AUTON_DRIVE_SPEED, true);
 
   // turn_chassis(18, ace::AUTON_TURN_SPEED, true);
