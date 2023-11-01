@@ -50,6 +50,7 @@ void contact() {
   ace::launch(ace::LAUNCH_SPEED);
   pros::delay(500);
   ace::launch(0);
+
   /*
   ace::launcherMotor.move_voltage(ace::LAUNCH_SPEED * -120);
   pros::delay(285);

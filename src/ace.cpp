@@ -3,11 +3,11 @@
 
 Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)
-    {PORT_CHASSIS_L_F, PORT_CHASSIS_L_B}
+    {PORT_CHASSIS_L_F, PORT_CHASSIS_L_C, PORT_CHASSIS_L_B}
 
     // Right Chassis Ports (negative port will reverse it!)
     ,
-    {PORT_CHASSIS_R_F, PORT_CHASSIS_R_B}
+    {PORT_CHASSIS_R_F, PORT_CHASSIS_R_C, PORT_CHASSIS_R_B}
 
     // IMU Port
     ,
