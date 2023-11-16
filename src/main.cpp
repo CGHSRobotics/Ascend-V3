@@ -82,7 +82,7 @@ void autonomous() {
   // std::string curr_auton = ace::auton::auton_selection[ace::auton::auton_selection_index];
 
   // ace::launcher_timer.reset();
-  // ace::rotate.reset_position();
+  ace::rotate.reset_position();
   ace::reset_launcher(ace::LAUNCH_SPEED);
   ace::reset_motors();
   ace::intake_toggle(ace::intake_enabled);

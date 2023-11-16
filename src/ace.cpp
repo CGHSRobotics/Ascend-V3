@@ -15,7 +15,7 @@ Drive chassis(
 
     // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
     ,
-    4.125
+    2.75
 
     // Cartridge RPM
     ,
@@ -23,7 +23,7 @@ Drive chassis(
 
     // External Gear Ratio (MUST BE DECIMAL)
     ,
-    1.25);
+    .75);
 // partner controller
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
@@ -224,8 +224,8 @@ void reverse_launch(float speed) {
 
 void reset_launcher(float speed) {
   // launcherMotor.move_voltage(speed * -120);
-
-  if (rotate.get_angle() >= 5700) {
+  //>=, 5700
+  if (rotate.get_angle() >= 5250) {
     // auncherMotor.move_voltage(speed * -120);
 
     launcherMotor.move_voltage(speed * 0);
