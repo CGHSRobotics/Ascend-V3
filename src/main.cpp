@@ -50,6 +50,10 @@ void initialize() {
   ace::launcherMotor.init();
   pros::lcd::shutdown();
 
+  // Reset rotate sensor position to 0
+  ace::rotate.reset_position();
+  // ace::reset_launcher(ace::LAUNCH_SPEED);
+
   // get ambient light sample
   ace::ambient_light = ace::lightSensor.get_value();
 
@@ -75,10 +79,17 @@ void autonomous() {
   chassis.reset_drive_sensor();               // Reset drive sensors to 0
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency.
 
-  std::string curr_auton = ace::auton::auton_selection[ace::auton::auton_selection_index];
+  // std::string curr_auton = ace::auton::auton_selection[ace::auton::auton_selection_index];
 
+  // ace::launcher_timer.reset();
+  ace::rotate.reset_position();
+  ace::reset_launcher(ace::LAUNCH_SPEED);
   ace::reset_motors();
-  ace::reset_launcher(ace::launch_speed);
+  ace::intake_toggle(ace::intake_enabled);
+  ace::auton::contact();
+  // ace::auton::skills();
+  ace::intake_pneu_toggle(ace::intake_pneu_enabled);
+  /*
   if (curr_auton == "score") {
     ace::auton::score();
   } else if (curr_auton == "contact") {
@@ -86,6 +97,7 @@ void autonomous() {
   } else if (curr_auton == "skills") {
     ace::auton::skills();
   }
+  */
 }
 
 /* ========================================================================== */
@@ -136,6 +148,15 @@ void opcontrol() {
       }
       */
     }
+    /*
+   if (ace::btn_long_launch.get_press_new()) {
+     ace::long_launch(ace::LAUNCH_SPEED_LONG);
+   }
+
+     if (ace::btn_launch_speed_toggle.get_press_new()) {
+       ace::launch_speed_toggle_enabled = !ace::launch_speed_toggle_enabled;
+     }
+   */
 
     if (ace::btn_reverse_endgame.get_press_new()) {
       ace::reverse_endgame(ace::ENDGAME_SPEED);
@@ -261,6 +282,13 @@ void opcontrol() {
       } else {
         ace::intakeMotorRight.spin_percent(0);
         ace::intakeMotorLeft.spin_percent(0);
+      }
+
+      if (ace::launch_speed_toggle_enabled) {
+        ace::launch_speed_toggle(true);
+
+      } else {
+        ace::launch_speed_toggle(false);
       }
 
       // flapjack

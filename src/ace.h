@@ -71,20 +71,23 @@ namespace ace {
 
 /* --------------------------------- Chassis -------------------------------- */
 #define PORT_CHASSIS_L_F -14
+#define PORT_CHASSIS_L_C -8
 #define PORT_CHASSIS_L_B -13
 
 #define PORT_CHASSIS_R_F 18
+#define PORT_CHASSIS_R_C 9
 #define PORT_CHASSIS_R_B 17
 
 /* ------------------------- Other Motors / Devices ------------------------- */
 #define PORT_INTAKE_LEFT 20
-#define PORT_INTAKE_RIGHT 12
+#define PORT_INTAKE_RIGHT 15
 #define PORT_LAUNCHER 11
 #define PORT_ENDGAME_LEFT 19
 #define PORT_ENDGAME_RIGHT 16
 
-#define PORT_VISION 10
-#define PORT_IMU 15
+#define PORT_VISION 20
+#define PORT_IMU 12
+#define PORT_ROTATION 10
 
 /* ------------------------------- ADI Devices ------------------------------ */
 
@@ -175,6 +178,7 @@ extern bool is_red_alliance;
 extern bool reverse_launch_enabled;
 static bool reverse_endgame_perm_enabled = false;
 extern float launch_speed;
+static bool launch_speed_toggle_enabled = false;
 
 /* ------------------------------- SPEEEEEEED ------------------------------- */
 
@@ -185,7 +189,8 @@ const float AUTON_INTAKE_SPEED = 50.0;
 
 // Launcher Speeds
 const float ENDGAME_SPEED = 50.0;
-const float LAUNCH_SPEED = 55.0;
+const float LAUNCH_SPEED = 90.0;
+const float LAUNCH_SPEED_LONG = 80;
 
 const float LAUNCH_SPEED_STANDBY = LAUNCH_SPEED;
 const float LAUNCHER_SPEED_CUTOFF = 5;
@@ -234,6 +239,7 @@ class Btn_Digi {
 
 /* ------------------------- Other Motors / Devices ------------------------- */
 
+static pros::Rotation rotate(PORT_ROTATION);
 // Launcher motor
 extern A_Motor launcherMotor;
 
@@ -272,6 +278,10 @@ extern pros::ADILed led;
 /* ========================================================================== */
 
 /* --------------------------------- Master --------------------------------- */
+
+static Btn_Digi btn_launch_speed_toggle(pros::E_CONTROLLER_DIGITAL_DOWN, cntr_partner);
+
+static Btn_Digi btn_long_launch(pros::E_CONTROLLER_DIGITAL_DOWN, cntr_master);
 
 static Btn_Digi btn_intake_pneu(pros::E_CONTROLLER_DIGITAL_Y, cntr_master);
 
@@ -331,6 +341,10 @@ static Btn_Digi btn_launch_speed_decrease(pros::E_CONTROLLER_DIGITAL_R2, cntr_pa
 
 /* --------------------------------- Standby -------------------------------- */
 
+extern void intake_pneu_auton();
+
+extern void launch_speed_toggle(bool enabled);
+
 extern void endgame(float speed);
 
 extern void reverse_endgame(float speed);
@@ -366,6 +380,10 @@ extern void launch(float speed);
  * @param speed		speed % on how fast standby is
  */
 
+extern void launch_long(float speed);
+
+extern void long_launch(float speed);
+
 extern void reset_launcher(float speed);
 
 extern void launch_standby(bool enabled, float speed);
@@ -391,6 +409,8 @@ extern void endgame_auton();
  * @brief 	calls endgame toggle in skills for auton
  *
  */
+extern void intake_pneu_auton();
+
 extern void cata_toggle(bool enabled);
 
 /**

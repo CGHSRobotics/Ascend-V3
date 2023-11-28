@@ -15,7 +15,7 @@ namespace ace::lvgl {
 
 /* ------------------------------ File Drivers ------------------------------ */
 typedef FILE* pc_file_t;
-// Bar style for spped is 344, decleration is 548
+
 static lv_fs_res_t pcfs_open(void* file_p, const char* fn, lv_fs_mode_t mode);
 static lv_fs_res_t pcfs_close(void* file_p);
 static lv_fs_res_t pcfs_read(void* file_p, void* buf, uint32_t btr, uint32_t* br);
@@ -159,7 +159,8 @@ static void init_lvgl() {
   __task_brain_screen_update.set_priority(TASK_PRIORITY_DEFAULT - 1);
   has_init = true;
 }
-/* ======================================================================== */
+
+/* ========================================================================== */
 /*                             Screen Update Task                             */
 /* ========================================================================== */
 static void brain_screen_update() {
@@ -168,12 +169,11 @@ static void brain_screen_update() {
   while (1) {
     if (has_init) {
       // Launcher Slider
-      /*
       int launch_rpm = ace::launcherMotor.get_actual_velocity() * 6;
       lv_bar_set_value(main_bar, launch_rpm);
       lv_label_set_text(main_bar_label, std::to_string(launch_rpm).c_str());
       lv_obj_align(main_bar_label, NULL, LV_ALIGN_IN_TOP_LEFT, 50, (1 - ((float)lv_bar_get_value(main_bar) / 3600.0)) * 220 + 5);
-      */
+
       // Main Screen Text
       lv_label_set_text(menu_tab1_cont1_battery_label,
                         (
@@ -181,23 +181,25 @@ static void brain_screen_update() {
                             "Master Battery: " + std::to_string(master.get_battery_capacity()) + "\n" +
                             "Partner Battery: " + std::to_string(partner.get_battery_capacity()) + "\n" +
                             "Theta: " + std::to_string(ace::theta) + "\n" +
-                            "ERRNO: " + std::to_string(errno))
+                            "ERRNO: " + std::to_string(errno) + "\n" +
+                            "Light Sensor: " + std::to_string(ace::lightSensor.get_value()))
                             .c_str());
 
       // Set temp Text
       lv_label_set_text(menu_tab3_cont1_labelTemp1,
                         (
-                            (std::string) " Launcher: " + std::to_string((int)ace::launcherMotor.get_temp()) + "\n\n" +
-                            " Chassis L F: " + std::to_string((int)ace::util::cel_to_faren(chassis.left_motors[0].get_temperature())) + "\n" +
-                            " Chassis L B: " + std::to_string((int)ace::util::cel_to_faren(chassis.left_motors[1].get_temperature())) + "\n" +
+                            (std::string) "Launcher: " + std::to_string((int)ace::launcherMotor.get_temp()) + "\n\n" +
+                            "Chassis L F: " + std::to_string((int)ace::util::cel_to_faren(chassis.left_motors[0].get_temperature())) + "\n" +
+                            "Chassis L M: " + std::to_string((int)ace::util::cel_to_faren(chassis.left_motors[1].get_temperature())) + "\n" +
+                            "Chassis L B: " + std::to_string((int)ace::util::cel_to_faren(chassis.left_motors[2].get_temperature())) + "\n" +
                             " ")
                             .c_str());
       lv_label_set_text(menu_tab3_cont2_labelTemp2,
                         (
-
-                            (std::string) " Intake: " + std::to_string((int)ace::intakeMotorLeft.get_temp()) + "\n\n" +
-                            " Chassis R F: " + std::to_string((int)ace::util::cel_to_faren(chassis.right_motors[0].get_temperature())) + "\n" +
-                            " Chassis R B: " + std::to_string((int)ace::util::cel_to_faren(chassis.right_motors[1].get_temperature())) + "\n" +
+                            (std::string) "Intake: " + std::to_string((int)ace::intakeMotorLeft.get_temp()) + "\n\n" +
+                            "Chassis R F: " + std::to_string((int)ace::util::cel_to_faren(chassis.right_motors[0].get_temperature())) + "\n" +
+                            "Chassis R M: " + std::to_string((int)ace::util::cel_to_faren(chassis.right_motors[1].get_temperature())) + "\n" +
+                            "Chassis R B: " + std::to_string((int)ace::util::cel_to_faren(chassis.right_motors[2].get_temperature())) + "\n" +
                             " ")
                             .c_str());
 
@@ -242,14 +244,13 @@ static void brain_screen_update() {
         else if (curr_selected == 2) {
           lv_obj_set_hidden(menu_tab4_ross, true);
           lv_obj_set_hidden(menu_tab4_chart, false);
-          // Change for both intake motors?
+
           lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_rpm, ace::intakeMotorLeft.get_percent_velocity());
           lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_setrpm, ace::intakeMotorLeft.get_voltage() / 120.0f);
           lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_torque, ace::intakeMotorLeft.get_percent_torque());
 
         }
         // if light
-        // inop due to dd menu label removal
         else if (curr_selected == 3) {
           lv_obj_set_hidden(menu_tab4_ross, true);
           lv_obj_set_hidden(menu_tab4_chart, false);
@@ -274,37 +275,38 @@ static void init_styles() {
 
   // Style for Screen
   lv_style_copy(&style_screen, &lv_style_plain);
-  style_screen.body.main_color = LV_COLOR_RED;
+  style_screen.body.main_color = LV_COLOR_BLACK;
   style_screen.body.grad_color = LV_COLOR_BLACK;
 
   // Style for text
   lv_style_copy(&style_text, &lv_style_pretty);
-  style_text.body.main_color = LV_COLOR_WHITE;
+  style_text.body.main_color = LV_COLOR_RED;
   style_text.body.grad_color = LV_COLOR_RED;
-  style_text.text.color = LV_COLOR_BLACK;
+  style_text.text.color = LV_COLOR_RED;
   style_text.text.font = &ace_IBMPlexMono_20;
 
   // Style for text
   lv_style_copy(&style_text_title, &style_text);
   style_text_title.body.main_color = LV_COLOR_RED;
-  style_text_title.body.grad_color = LV_COLOR_WHITE;
-  style_text_title.text.color = LV_COLOR_BLACK;
+  style_text_title.body.grad_color = LV_COLOR_RED;
+  style_text_title.text.color = LV_COLOR_RED;
   style_text_title.text.font = &ace_IBMPlexMono_30;
 
-  // Style for Empty Container--- Beginning screen//
+  // Style for Empty Container
   lv_style_copy(&style_container_empty, &lv_style_plain);
-  style_container_empty.body.grad_color = LV_COLOR_RED;
-  style_container_empty.body.main_color = LV_COLOR_RED;
-  style_container_empty.body.border.color = LV_COLOR_GRAY;
+  style_container_empty.body.grad_color = LV_COLOR_BLACK;
+  style_container_empty.body.main_color = LV_COLOR_BLACK;
+  style_container_empty.body.border.color = LV_COLOR_BLACK;
   style_container_empty.body.border.width = 0;
   style_container_empty.body.padding.hor = 0;
   style_container_empty.body.padding.ver = 0;
   style_container_empty.body.padding.inner = 10;
 
-  // Style for Container with white with text begginign and screen with tabs//
+  // Style for Container with Red Border
   lv_style_copy(&style_container_red, &lv_style_plain);
   style_container_red.body.grad_color = LV_COLOR_BLACK;
-  style_container_red.body.border.color = LV_COLOR_GRAY;
+  style_container_red.body.main_color = LV_COLOR_BLACK;
+  style_container_red.body.border.color = LV_COLOR_RED;
   style_container_red.body.border.width = 2;
   style_container_red.body.radius = 10;
   style_container_red.body.padding.hor = 10;
@@ -317,32 +319,32 @@ static void init_styles() {
   style_preload.line.color = LV_COLOR_RED;
   style_preload.body.border.width = 6;
   style_preload.body.padding.hor = 0;
-  style_preload.body.main_color = LV_COLOR_RED;
-  style_preload.body.grad_color = LV_COLOR_WHITE;
+  style_preload.body.main_color = LV_COLOR_BLACK;
+  style_preload.body.grad_color = LV_COLOR_BLACK;
   style_preload.body.border.color = LV_COLOR_BLACK;
 
   // Bar Style
   lv_style_copy(&style_bar, &lv_style_pretty);
-  style_bar.body.main_color = LV_COLOR_ORANGE;
-  style_bar.body.grad_color = LV_COLOR_WHITE;
+  style_bar.body.main_color = LV_COLOR_BLACK;
+  style_bar.body.grad_color = LV_COLOR_GRAY;
   style_bar.body.radius = 0;
-  style_bar.body.border.color = LV_COLOR_RED;
+  style_bar.body.border.color = LV_COLOR_WHITE;
 
   // Bar Style Indicator
   lv_style_copy(&style_bar_indic, &lv_style_pretty);
-  style_bar_indic.body.grad_color = LV_COLOR_RED;
+  style_bar_indic.body.grad_color = LV_COLOR_YELLOW;
   style_bar_indic.body.main_color = LV_COLOR_RED;
   style_bar_indic.body.radius = 0;
   style_bar_indic.body.shadow.width = 5;
-  style_bar_indic.body.shadow.color = LV_COLOR_RED;
+  style_bar_indic.body.shadow.color = LV_COLOR_ORANGE;
   style_bar_indic.body.padding.hor = 3;
   style_bar_indic.body.padding.ver = 3;
 
   // Button Style Indicator
   lv_style_copy(&style_btn, &lv_style_pretty);
-  style_btn.body.grad_color = LV_COLOR_WHITE;
-  style_btn.body.main_color = LV_COLOR_WHITE;
-  style_btn.body.border.color = LV_COLOR_BLACK;
+  style_btn.body.grad_color = LV_COLOR_BLACK;
+  style_btn.body.main_color = LV_COLOR_BLACK;
+  style_btn.body.border.color = LV_COLOR_RED;
   style_btn.body.border.width = 2;
   style_btn.body.radius = 10;
   style_btn.body.padding.hor = 5;
@@ -352,9 +354,9 @@ static void init_styles() {
 
   // Tabview BG Style Indicator
   lv_style_copy(&style_tabview_bg, &lv_style_pretty);
-  style_tabview_bg.body.grad_color = LV_COLOR_RED;
-  style_tabview_bg.body.main_color = LV_COLOR_RED;
-  style_tabview_bg.body.border.color = LV_COLOR_BLACK;
+  style_tabview_bg.body.grad_color = LV_COLOR_BLACK;
+  style_tabview_bg.body.main_color = LV_COLOR_BLACK;
+  style_tabview_bg.body.border.color = LV_COLOR_RED;
   style_tabview_bg.body.border.width = 2;
   style_tabview_bg.body.radius = 0;
   style_tabview_bg.body.padding.hor = 0;
@@ -364,9 +366,9 @@ static void init_styles() {
 
   // Tabview Indicator Style Indicator
   lv_style_copy(&style_tabview_indic, &lv_style_pretty);
-  style_tabview_indic.body.grad_color = LV_COLOR_WHITE;
-  style_tabview_indic.body.main_color = LV_COLOR_WHITE;
-  style_tabview_indic.body.border.color = LV_COLOR_BLACK;
+  style_tabview_indic.body.grad_color = LV_COLOR_RED;
+  style_tabview_indic.body.main_color = LV_COLOR_RED;
+  style_tabview_indic.body.border.color = LV_COLOR_RED;
   style_tabview_indic.body.border.width = 2;
   style_tabview_indic.body.radius = 0;
   style_tabview_indic.body.padding.hor = 0;
@@ -376,9 +378,9 @@ static void init_styles() {
 
   // Tabview Indicator Style Indicator
   lv_style_copy(&style_tabview_pr, &lv_style_pretty);
-  style_tabview_pr.body.grad_color = LV_COLOR_WHITE;
-  style_tabview_pr.body.main_color = LV_COLOR_WHITE;
-  style_tabview_pr.body.border.color = LV_COLOR_BLACK;
+  style_tabview_pr.body.grad_color = LV_COLOR_RED;
+  style_tabview_pr.body.main_color = LV_COLOR_RED;
+  style_tabview_pr.body.border.color = LV_COLOR_RED;
   style_tabview_pr.body.border.width = 3;
   style_tabview_pr.body.radius = 0;
   style_tabview_pr.body.padding.hor = 0;
@@ -386,11 +388,11 @@ static void init_styles() {
   style_tabview_pr.body.border.opa = 255;
   style_tabview_pr.body.shadow.width = 0;
 
-  // Tabview Indicator Style Indicator// Bar with Buttons (HOME<AUTON>>>)
+  // Tabview Indicator Style Indicator
   lv_style_copy(&style_tabview_rel, &lv_style_pretty);
-  style_tabview_rel.body.grad_color = LV_COLOR_WHITE;
-  style_tabview_rel.body.main_color = LV_COLOR_WHITE;
-  style_tabview_rel.body.border.color = LV_COLOR_BLACK;
+  style_tabview_rel.body.grad_color = LV_COLOR_BLACK;
+  style_tabview_rel.body.main_color = LV_COLOR_BLACK;
+  style_tabview_rel.body.border.color = LV_COLOR_RED;
   style_tabview_rel.body.border.width = 2;
   style_tabview_rel.body.radius = 0;
   style_tabview_rel.body.padding.hor = 0;
@@ -401,9 +403,9 @@ static void init_styles() {
 
   // Tab 2 Auton Dropdown Style
   lv_style_copy(&style_ddm, &lv_style_pretty);
-  style_ddm.body.grad_color = LV_COLOR_WHITE;
-  style_ddm.body.main_color = LV_COLOR_WHITE;
-  style_ddm.body.border.color = LV_COLOR_BLACK;
+  style_ddm.body.grad_color = LV_COLOR_BLACK;
+  style_ddm.body.main_color = LV_COLOR_BLACK;
+  style_ddm.body.border.color = LV_COLOR_RED;
   style_ddm.body.border.width = 2;
   style_ddm.body.radius = 4;
   style_ddm.body.padding.hor = 5;
@@ -415,9 +417,9 @@ static void init_styles() {
 
   // Button Matrix Style
   lv_style_copy(&style_btnm, &lv_style_pretty);
-  style_btnm.body.grad_color = LV_COLOR_WHITE;
-  style_btnm.body.main_color = LV_COLOR_WHITE;
-  style_btnm.body.border.color = LV_COLOR_BLACK;
+  style_btnm.body.grad_color = LV_COLOR_BLACK;
+  style_btnm.body.main_color = LV_COLOR_BLACK;
+  style_btnm.body.border.color = LV_COLOR_RED;
   style_btnm.body.border.width = 2;
   style_btnm.body.radius = 4;
   style_btnm.body.padding.hor = 5;
@@ -563,7 +565,6 @@ static void init_main_screen() {
   main_btn = lv_btn_create(main_cont, NULL);
   lv_btn_set_fit(main_btn, false, false);
   lv_obj_set_size(main_btn, 80, 40);
-  // Change y back to 170 if brain screen is not broke
   lv_obj_align(main_btn, NULL, LV_ALIGN_IN_TOP_LEFT, 370, 170);
   lv_btn_set_style(main_btn, LV_BTN_STYLE_REL, &style_btn);
   lv_btn_set_action(main_btn, LV_BTN_ACTION_PR, main_btn_click);
@@ -664,11 +665,10 @@ static void init_menu_screen() {
   lv_obj_set_size(menu_tab2_btnm_alliance, 225, 80);
   lv_btnm_set_style(menu_tab2_btnm_alliance, LV_BTNM_STYLE_BTN_REL, &style_btnm);
 
-  /*
-  menu_tab2_cont1_labelCurrAuton = lv_label_create(menu_tab2_cont1, NULL);
+  /*menu_tab2_cont1_labelCurrAuton = lv_label_create(menu_tab2_cont1, NULL);
   lv_obj_align(menu_tab2_cont_main, NULL, LV_LABEL_ALIGN_LEFT, 0, 0);
-  lv_label_set_text("Curr Auton: " + ace::auton::auton_selection + "/n" + "Curr Ally " + ace::auton::alliance_selection).c_str();
-  */
+  lv_label_set_text("Curr Auton: " + ace::auton::auton_selection + "/n" + "Curr Ally " + ace::auton::alliance_selection).c_str();*/
+
   /* ------------------------------ Tab 3 - Temp ------------------------------ */
   menu_tab3 = lv_tabview_add_tab(menu_tabview, "Temp");
   lv_page_set_sb_mode(menu_tab3, LV_SB_MODE_OFF);
@@ -695,7 +695,7 @@ static void init_menu_screen() {
 
   menu_tab4_ddlist = lv_ddlist_create(menu_tab4, menu_tab2_auton_drop);
   lv_obj_set_size(menu_tab4_ddlist, 100, 60);
-  lv_ddlist_set_options(menu_tab4_ddlist, "ROSS\nLauncher\nIntake");
+  lv_ddlist_set_options(menu_tab4_ddlist, "ROSS\nLauncher\nIntake\nLight");
   lv_obj_align(menu_tab4_ddlist, NULL, LV_ALIGN_IN_TOP_LEFT, 10, 10);
   lv_ddlist_set_anim_time(menu_tab4_ddlist, 0);
 
@@ -741,7 +741,7 @@ static void start_preloader_anim() {
 }
 
 /* ========================================================================== */
-/*                             Button Click Events                      s      */
+/*                             Button Click Events                            */
 /* ========================================================================== */
 static lv_res_t main_btn_click(lv_obj_t* btn) {
   lv_scr_load(menu_screen);

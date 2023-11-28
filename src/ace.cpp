@@ -3,11 +3,11 @@
 
 Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)
-    {PORT_CHASSIS_L_F, PORT_CHASSIS_L_B}
+    {PORT_CHASSIS_L_F, PORT_CHASSIS_L_C, PORT_CHASSIS_L_B}
 
     // Right Chassis Ports (negative port will reverse it!)
     ,
-    {PORT_CHASSIS_R_F, PORT_CHASSIS_R_B}
+    {PORT_CHASSIS_R_F, PORT_CHASSIS_R_C, PORT_CHASSIS_R_B}
 
     // IMU Port
     ,
@@ -15,7 +15,7 @@ Drive chassis(
 
     // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
     ,
-    4.125
+    2.75
 
     // Cartridge RPM
     ,
@@ -23,7 +23,7 @@ Drive chassis(
 
     // External Gear Ratio (MUST BE DECIMAL)
     ,
-    1.25);
+    .75);
 // partner controller
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
@@ -210,6 +210,12 @@ void launch(float speed) {
   */
 }
 
+void long_launch(float speed) {
+  launcherMotor.move_voltage(speed * -120);
+  pros::delay(100);
+  launcherMotor.move_voltage(speed * -120);
+}
+
 void reverse_launch(float speed) {
   launcherMotor.move_voltage(speed * 120);
   pros::delay(100);
@@ -217,6 +223,19 @@ void reverse_launch(float speed) {
 }
 
 void reset_launcher(float speed) {
+  // launcherMotor.move_voltage(speed * -120);
+  //>=, 5700
+  if (rotate.get_angle() >= 5250) {
+    // auncherMotor.move_voltage(speed * -120);
+
+    launcherMotor.move_voltage(speed * 0);
+    launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+    launcherMotor.brake();
+
+  } else {
+    launcherMotor.move_voltage(speed * -120);
+  }
+  /*
   if (!limit.get_value()) {
     launcherMotor.move_voltage(speed * -120);
   } else {
@@ -224,11 +243,17 @@ void reset_launcher(float speed) {
     launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
     launcherMotor.brake();
   }
+  */
 }
+// starts
+// 359.82
+// ends
+// 57.65
 
 // launch standby
 void launch_standby(bool enabled, float speed) {
   curr_launching = false;
+
   if (enabled)
     launcherMotor.move_velocity(speed * 6);
 
@@ -276,6 +301,15 @@ void intake_pneu_toggle(bool enabled) {
 
   } else {
     intakePneumatics.set_value(0);
+  }
+}
+
+void launch_speed_toggle(bool enabled) {
+  if (enabled) {
+    ace::launch_speed = 55.0;
+
+  } else {
+    ace::launch_speed = 80.0;
   }
 }
 
