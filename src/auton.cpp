@@ -12,23 +12,14 @@ int auton_selection_index = 0;
 /*                               Score Auton                                   */
 /* ========================================================================== */
 void score() {
-  
-  drive_chassis(60, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(90, ace::AUTON_TURN_SPEED, true);
-  auton_intake_reverse(2000, ace::INTAKE_SPEED);
-  turn_chassis(270, ace::AUTON_TURN_SPEED, true);
-  drive_chassis(-50, ace::AUTON_DRIVE_SPEED, true);
+    
 }
 
 /* ========================================================================== */
 /*                               Contact Auton                                  */
 /* ========================================================================== */
 void contact() {
-  drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(-90, ace::AUTON_TURN_SPEED, true);
-  auton_intake_reverse(2000, ace::INTAKE_SPEED);
-  turn_chassis(270, ace::AUTON_TURN_SPEED, true);
-  drive_chassis(50, ace::AUTON_DRIVE_SPEED, true);
+
 }
 
 /* ========================================================================== */
@@ -51,11 +42,7 @@ void two_side() {
 /*                                   Skills                                   */
 /* ========================================================================== */
 void skills() {
-  drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(90, ace::AUTON_TURN_SPEED, true);
-  auton_intake_reverse(2000, ace::INTAKE_SPEED);
-  turn_chassis(270, ace::AUTON_TURN_SPEED, true);
-  drive_chassis(-50, ace::AUTON_DRIVE_SPEED, true);
+
 }
 
 /* ========================================================================== */
