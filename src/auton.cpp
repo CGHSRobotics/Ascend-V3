@@ -12,24 +12,22 @@ int auton_selection_index = 0;
 /*                               Score Auton                                   */
 /* ========================================================================== */
 void score() {
-
-   drive_chassis(60, ace::AUTON_DRIVE_SPEED, true);
-   turn_chassis(90, ace::AUTON_TURN_SPEED, true);
-   auton_intake_reverse(2000, ace::INTAKE_SPEED);
-   turn_chassis(270, ace::AUTON_TURN_SPEED, true);
-   drive_chassis(-50, ace::AUTON_DRIVE_SPEED, true);
-    
+  drive_chassis(60, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(90, ace::AUTON_TURN_SPEED, true);
+  auton_intake_reverse(2000, ace::INTAKE_SPEED);
+  turn_chassis(270, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(-50, ace::AUTON_DRIVE_SPEED, true);
 }
 
 /* ========================================================================== */
 /*                               Contact Auton                                  */
 /* ========================================================================== */
 void contact() {
-   drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
-   turn_chassis(-90, ace::AUTON_TURN_SPEED, true);
-   auton_intake_reverse(2000, ace::INTAKE_SPEED);
-   turn_chassis(270, ace::AUTON_TURN_SPEED, true);
-   drive_chassis(50, ace::AUTON_DRIVE_SPEED, true);
+  drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-90, ace::AUTON_TURN_SPEED, true);
+  auton_intake_reverse(2000, ace::INTAKE_SPEED);
+  turn_chassis(270, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(50, ace::AUTON_DRIVE_SPEED, true);
 }
 
 /* ========================================================================== */
@@ -52,11 +50,51 @@ void two_side() {
 /*                                   Skills                                   */
 /* ========================================================================== */
 void skills() {
-   drive_chassis(105, ace::AUTON_DRIVE_SPEED, true);
-   turn_chassis(90, ace::AUTON_TURN_SPEED, true);
-   auton_intake_reverse(2000, ace::INTAKE_SPEED);
-   turn_chassis(270, ace::AUTON_TURN_SPEED, true);
-   drive_chassis(-50, ace::AUTON_DRIVE_SPEED, true);
+  drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
+
+  turn_chassis(40, ace::AUTON_TURN_SPEED, true);
+
+  drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
+
+  drive_chassis(-35, ace::AUTON_DRIVE_SPEED, true);
+
+  /* turn_chassis(95, ace::AUTON_TURN_SPEED, true);
+
+   drive_chassis(10, ace::AUTON_DRIVE_SPEED, true); */
+
+  turn_chassis(-65, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(5, ace::AUTON_DRIVE_SPEED, true);
+
+  launch_auton(ace::launch_speed);
+  pros::delay(40000);
+  ace::launcherMotor.move_voltage(0);
+  ace::launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  ace::launcherMotor.brake();
+
+  drive_chassis(-5, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-200, ace::AUTON_TURN_SPEED, true);
+
+  ace::intakePneumatics.set_value(1);
+  drive_chassis(50, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-220, ace::AUTON_TURN_SPEED, true);
+
+  launch_auton(ace::launch_speed);
+  pros::delay(100);
+  ace::launcherMotor.move_voltage(0);
+  ace::launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
+  ace::launcherMotor.brake();
+
+  drive_chassis(110, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-270, ace::AUTON_TURN_SPEED, true);
+  ace::intakePneumatics.set_value(0);
+
+  drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-300, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-90, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(10, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(90, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(20, ace::AUTON_DRIVE_SPEED, true);
 }
 
 /* ========================================================================== */
