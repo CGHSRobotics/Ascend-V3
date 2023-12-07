@@ -63,38 +63,55 @@ void skills() {
    drive_chassis(10, ace::AUTON_DRIVE_SPEED, true); */
 
   turn_chassis(-65, ace::AUTON_TURN_SPEED, true);
-  drive_chassis(5, ace::AUTON_DRIVE_SPEED, true);
-
+  drive_chassis(6, ace::AUTON_DRIVE_SPEED, true);
+  // 5
+  /*
   launch_auton(ace::launch_speed);
   pros::delay(40000);
   ace::launcherMotor.move_voltage(0);
   ace::launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
   ace::launcherMotor.brake();
-
+  */
   drive_chassis(-5, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(-200, ace::AUTON_TURN_SPEED, true);
+  turn_chassis(-190, ace::AUTON_TURN_SPEED, true);
+  // 200
 
   ace::intakePneumatics.set_value(1);
-  drive_chassis(50, ace::AUTON_DRIVE_SPEED, true);
+  drive_chassis(40, ace::AUTON_DRIVE_SPEED, true);
+
   turn_chassis(-220, ace::AUTON_TURN_SPEED, true);
 
-  launch_auton(ace::launch_speed);
-  pros::delay(100);
+  // launch_auton(ace::launch_speed);
+  // pros::delay(125);
   ace::launcherMotor.move_voltage(0);
   ace::launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
   ace::launcherMotor.brake();
 
-  drive_chassis(110, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(-270, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(125, ace::AUTON_DRIVE_SPEED, true);
+  ace::intakeMotorLeft.move_voltage(80 * -120);
   ace::intakePneumatics.set_value(0);
+  ace::intakeMotorLeft.move_voltage(0);
+  turn_chassis(-270, ace::AUTON_TURN_SPEED, true);
+  // ace::intakePneumatics.set_value(0);
 
-  drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
+  // 30
+  drive_chassis(65, ace::AUTON_DRIVE_SPEED, true);
   turn_chassis(-300, ace::AUTON_TURN_SPEED, true);
   drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
+
+  drive_chassis(-30, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-380, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(70, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-100, ace::AUTON_TURN_SPEED, true);
+  ace::flapPneumatics.set_value(1);
+  drive_chassis(50, ace::AUTON_DRIVE_SPEED, true);
+
+  /*
   turn_chassis(-90, ace::AUTON_TURN_SPEED, true);
   drive_chassis(10, ace::AUTON_DRIVE_SPEED, true);
   turn_chassis(90, ace::AUTON_TURN_SPEED, true);
   drive_chassis(20, ace::AUTON_DRIVE_SPEED, true);
+  */
 }
 
 /* ========================================================================== */
