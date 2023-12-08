@@ -87,23 +87,30 @@ void skills() {
   ace::launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
   ace::launcherMotor.brake();
 
+  ace::intakeMotorLeft.move_voltage(80 * 120);
   drive_chassis(125, ace::AUTON_DRIVE_SPEED, true);
-  ace::intakeMotorLeft.move_voltage(80 * -120);
+
   ace::intakePneumatics.set_value(0);
-  ace::intakeMotorLeft.move_voltage(0);
+
   turn_chassis(-270, ace::AUTON_TURN_SPEED, true);
   // ace::intakePneumatics.set_value(0);
 
   // 30
   drive_chassis(65, ace::AUTON_DRIVE_SPEED, true);
+ 
   turn_chassis(-300, ace::AUTON_TURN_SPEED, true);
+  ace::intakeMotorLeft.move_voltage(0);
+  drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
+  drive_chassis(-30, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(-20, ace::AUTON_TURN_SPEED, true);
+  drive_chassis(70, ace::AUTON_DRIVE_SPEED, true);
+  turn_chassis(20, ace::AUTON_TURN_SPEED, true);
   drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
 
-  drive_chassis(-30, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(-380, ace::AUTON_TURN_SPEED, true);
-  drive_chassis(70, ace::AUTON_DRIVE_SPEED, true);
-  turn_chassis(-100, ace::AUTON_TURN_SPEED, true);
+  turn_chassis(-310, ace::AUTON_TURN_SPEED, true);
+
   ace::flapPneumatics.set_value(1);
+  turn_chassis(100, ace::AUTON_TURN_SPEED, true);
   drive_chassis(50, ace::AUTON_DRIVE_SPEED, true);
 
   /*
