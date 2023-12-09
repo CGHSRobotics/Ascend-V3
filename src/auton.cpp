@@ -14,11 +14,13 @@ int auton_selection_index = 0;
 void score() {
   drive_chassis(15, ace::AUTON_DRIVE_SPEED, true);
 
-  ace::flapPneumatics.set_value(10);
+  ace::flapPneumatics.set_value(1);
 
-  drive_chassis(-15, ace::AUTON_DRIVE_SPEED, true);
+  drive_chassis(-17, ace::AUTON_DRIVE_SPEED, true);
 
-  drive_chassis(30, ace::AUTON_DRIVE_SPEED, true);
+ ace::flapPneumatics.set_value(0);
+
+  drive_chassis(32, ace::AUTON_DRIVE_SPEED, true);
 
   turn_chassis(40, ace::AUTON_TURN_SPEED, true);
 
@@ -34,6 +36,12 @@ void score() {
   drive_chassis(6, ace::AUTON_DRIVE_SPEED, true);
   // 5
   // Dead
+  drive_chassis(-5, ace::AUTON_DRIVE_SPEED, true);
+  // flag
+  turn_chassis(-200, ace::AUTON_TURN_SPEED, true);
+  // 200
+
+  drive_chassis(40, ace::AUTON_DRIVE_SPEED, true);
 }
 
 /* ========================================================================== */
@@ -103,13 +111,13 @@ void two_side() {
   turn_chassis(-65, ace::AUTON_TURN_SPEED, true);
   drive_chassis(6, ace::AUTON_DRIVE_SPEED, true);
   // 5
-  /*
+  
   launch_auton(ace::launch_speed);
   pros::delay(40000);
   ace::launcherMotor.move_voltage(0);
   ace::launcherMotor.set_brake_mode(MOTOR_BRAKE_HOLD);
   ace::launcherMotor.brake();
-  */
+  
   drive_chassis(-5, ace::AUTON_DRIVE_SPEED, true);
   // flag
   turn_chassis(-200, ace::AUTON_TURN_SPEED, true);
