@@ -508,6 +508,7 @@ extern void three_side();
 extern void two_side();
 extern void skills();
 extern void score();
+extern void score_inv();
 extern void contact();
 
 /**
