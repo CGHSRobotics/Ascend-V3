@@ -1,5 +1,4 @@
 
-
 #include "ace.h"
 
 // Declare Custom Fonts
@@ -45,7 +44,9 @@ static lv_obj_t* load_screen;
 static lv_obj_t* container_load;
 
 static lv_obj_t* container_text;
+static lv_obj_t* container_title;
 static lv_obj_t* label_load;
+static lv_obj_t* label_title;
 static lv_obj_t* label_load_flap;
 static lv_obj_t* label_load_shenan;
 static lv_obj_t* label_load_imu;
@@ -166,105 +167,7 @@ static void init_lvgl() {
 static void brain_screen_update() {
   int selected = 0;
 
-  while (1) {
-    if (has_init) {
-      // Launcher Slider
-      int launch_rpm = ace::launcherMotor.get_actual_velocity() * 6;
-      lv_bar_set_value(main_bar, launch_rpm);
-      lv_label_set_text(main_bar_label, std::to_string(launch_rpm).c_str());
-      lv_obj_align(main_bar_label, NULL, LV_ALIGN_IN_TOP_LEFT, 50, (1 - ((float)lv_bar_get_value(main_bar) / 3600.0)) * 220 + 5);
-
-      // Main Screen Text
-      lv_label_set_text(menu_tab1_cont1_battery_label,
-                        (
-                            "Battery: " + std::to_string(pros::battery::get_capacity()) + "\n" +
-                            "Master Battery: " + std::to_string(master.get_battery_capacity()) + "\n" +
-                            "Partner Battery: " + std::to_string(partner.get_battery_capacity()) + "\n" +
-                            "Theta: " + std::to_string(ace::theta) + "\n" +
-                            "ERRNO: " + std::to_string(errno) + "\n" +
-                            "Light Sensor: " + std::to_string(ace::lightSensor.get_value()))
-                            .c_str());
-
-      // Set temp Text
-      lv_label_set_text(menu_tab3_cont1_labelTemp1,
-                        (
-                            (std::string) "Launcher: " + std::to_string((int)ace::launcherMotor.get_temp()) + "\n\n" +
-                            "Chassis L F: " + std::to_string((int)ace::util::cel_to_faren(chassis.left_motors[0].get_temperature())) + "\n" +
-                            "Chassis L M: " + std::to_string((int)ace::util::cel_to_faren(chassis.left_motors[1].get_temperature())) + "\n" +
-                            "Chassis L B: " + std::to_string((int)ace::util::cel_to_faren(chassis.left_motors[2].get_temperature())) + "\n" +
-                            " ")
-                            .c_str());
-      lv_label_set_text(menu_tab3_cont2_labelTemp2,
-                        (
-                            (std::string) "Intake: " + std::to_string((int)ace::intakeMotorLeft.get_temp()) + "\n\n" +
-                            "Chassis R F: " + std::to_string((int)ace::util::cel_to_faren(chassis.right_motors[0].get_temperature())) + "\n" +
-                            "Chassis R M: " + std::to_string((int)ace::util::cel_to_faren(chassis.right_motors[1].get_temperature())) + "\n" +
-                            "Chassis R B: " + std::to_string((int)ace::util::cel_to_faren(chassis.right_motors[2].get_temperature())) + "\n" +
-                            " ")
-                            .c_str());
-
-      // Check launcher History
-      if (lv_tabview_get_tab_act(menu_tabview) == 3) {
-        int curr_selected = lv_ddlist_get_selected(menu_tab4_ddlist);
-
-        // if ddlist selected has changed
-        if (selected != curr_selected) {
-          lv_chart_clear_serie(menu_tab4_chart, menu_tab4_chart_ser_rpm);
-          lv_chart_clear_serie(menu_tab4_chart, menu_tab4_chart_ser_setrpm);
-          lv_chart_clear_serie(menu_tab4_chart, menu_tab4_chart_ser_torque);
-          // if changed to launcher
-          if (curr_selected == 1) {
-            lv_chart_set_range(menu_tab4_chart, -5, 105);
-          }
-          // if changed to intake
-          if (curr_selected == 2) {
-            lv_chart_set_range(menu_tab4_chart, -105, 105);
-          }
-          // if changed to light
-          if (curr_selected == 3) {
-            lv_chart_set_range(menu_tab4_chart, 0, 2048);
-          }
-        }
-
-        // if ross's beautiful face
-        if (curr_selected == 0) {
-          lv_obj_set_hidden(menu_tab4_chart, true);
-          lv_obj_set_hidden(menu_tab4_ross, false);
-        }
-        // if launcher
-        else if (curr_selected == 1) {
-          lv_obj_set_hidden(menu_tab4_ross, true);
-          lv_obj_set_hidden(menu_tab4_chart, false);
-
-          lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_rpm, ace::launcherMotor.get_percent_velocity());
-          lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_setrpm, ace::launcherMotor.get_voltage() / 120.0f);
-          lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_torque, ace::launcherMotor.get_percent_torque());
-        }
-        // if intake
-        else if (curr_selected == 2) {
-          lv_obj_set_hidden(menu_tab4_ross, true);
-          lv_obj_set_hidden(menu_tab4_chart, false);
-
-          lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_rpm, ace::intakeMotorLeft.get_percent_velocity());
-          lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_setrpm, ace::intakeMotorLeft.get_voltage() / 120.0f);
-          lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_torque, ace::intakeMotorLeft.get_percent_torque());
-
-        }
-        // if light
-        else if (curr_selected == 3) {
-          lv_obj_set_hidden(menu_tab4_ross, true);
-          lv_obj_set_hidden(menu_tab4_chart, false);
-
-          lv_chart_set_next(menu_tab4_chart, menu_tab4_chart_ser_rpm, ace::lightSensor.get_value());
-        } else {
-          // printf("options in tab4 ddlist no worky :(");
-        }
-
-        selected = curr_selected;
-      }
-    }
-    pros::delay(100);
-  }
+  
 }
 
 /* ========================================================================== */
@@ -275,8 +178,8 @@ static void init_styles() {
 
   // Style for Screen
   lv_style_copy(&style_screen, &lv_style_plain);
-  style_screen.body.main_color = LV_COLOR_BLACK;
-  style_screen.body.grad_color = LV_COLOR_BLACK;
+  style_screen.body.main_color = LV_COLOR_GRAY;
+  style_screen.body.grad_color = LV_COLOR_GRAY;
 
   // Style for text
   lv_style_copy(&style_text, &lv_style_pretty);
@@ -294,9 +197,9 @@ static void init_styles() {
 
   // Style for Empty Container
   lv_style_copy(&style_container_empty, &lv_style_plain);
-  style_container_empty.body.grad_color = LV_COLOR_BLACK;
-  style_container_empty.body.main_color = LV_COLOR_BLACK;
-  style_container_empty.body.border.color = LV_COLOR_BLACK;
+  style_container_empty.body.grad_color = LV_COLOR_GRAY;
+  style_container_empty.body.main_color = LV_COLOR_GRAY;
+  style_container_empty.body.border.color = LV_COLOR_GRAY;
   style_container_empty.body.border.width = 0;
   style_container_empty.body.padding.hor = 0;
   style_container_empty.body.padding.ver = 0;
@@ -304,8 +207,8 @@ static void init_styles() {
 
   // Style for Container with Red Border
   lv_style_copy(&style_container_red, &lv_style_plain);
-  style_container_red.body.grad_color = LV_COLOR_BLACK;
-  style_container_red.body.main_color = LV_COLOR_BLACK;
+  style_container_red.body.grad_color = LV_COLOR_GRAY;
+  style_container_red.body.main_color = LV_COLOR_GRAY;
   style_container_red.body.border.color = LV_COLOR_RED;
   style_container_red.body.border.width = 2;
   style_container_red.body.radius = 10;
@@ -354,8 +257,8 @@ static void init_styles() {
 
   // Tabview BG Style Indicator
   lv_style_copy(&style_tabview_bg, &lv_style_pretty);
-  style_tabview_bg.body.grad_color = LV_COLOR_BLACK;
-  style_tabview_bg.body.main_color = LV_COLOR_BLACK;
+  style_tabview_bg.body.grad_color = LV_COLOR_GRAY;
+  style_tabview_bg.body.main_color = LV_COLOR_GRAY;
   style_tabview_bg.body.border.color = LV_COLOR_RED;
   style_tabview_bg.body.border.width = 2;
   style_tabview_bg.body.radius = 0;
@@ -390,8 +293,8 @@ static void init_styles() {
 
   // Tabview Indicator Style Indicator
   lv_style_copy(&style_tabview_rel, &lv_style_pretty);
-  style_tabview_rel.body.grad_color = LV_COLOR_BLACK;
-  style_tabview_rel.body.main_color = LV_COLOR_BLACK;
+  style_tabview_rel.body.grad_color = LV_COLOR_GRAY;
+  style_tabview_rel.body.main_color = LV_COLOR_GRAY;
   style_tabview_rel.body.border.color = LV_COLOR_RED;
   style_tabview_rel.body.border.width = 2;
   style_tabview_rel.body.radius = 0;
@@ -417,8 +320,8 @@ static void init_styles() {
 
   // Button Matrix Style
   lv_style_copy(&style_btnm, &lv_style_pretty);
-  style_btnm.body.grad_color = LV_COLOR_BLACK;
-  style_btnm.body.main_color = LV_COLOR_BLACK;
+  style_btnm.body.grad_color = LV_COLOR_GRAY;
+  style_btnm.body.main_color = LV_COLOR_GRAY;
   style_btnm.body.border.color = LV_COLOR_RED;
   style_btnm.body.border.width = 2;
   style_btnm.body.radius = 4;
@@ -461,6 +364,15 @@ static void init_loading_screen() {
   /*                                    Text                                    */
   /* ========================================================================== */
 
+  //Ace Label Container 
+  container_title = lv_cont_create(container_load, NULL);
+  lv_cont_set_layout(container_text, LV_LAYOUT_COL_M);
+  lv_obj_set_size(container_text, 330, 220);
+  lv_obj_set_style(container_text, &style_container_red);
+
+  label_title = lv_label_create(container_load, NULL);
+  lv_label_set_text(label_load, "AceUI\n");
+  lv_obj_set_style(label_load, &style_text_title);
   /* ----------------------------- Text Container ----------------------------- */
   container_text = lv_cont_create(container_load, NULL);
   lv_cont_set_layout(container_text, LV_LAYOUT_COL_L);
@@ -501,25 +413,10 @@ static void init_loading_screen() {
   preload1 = lv_preload_create(container_preloader, NULL);
   lv_obj_set_size(preload1, 175, 175);
   lv_preload_set_arc_length(preload1, 135);
-  lv_preload_set_spin_time(preload1, 2000);
+  lv_preload_set_spin_time(preload1, 500);
   lv_obj_align(preload1, NULL, LV_ALIGN_CENTER, 5, 0);
   lv_preload_set_style(preload1, LV_PRELOAD_STYLE_MAIN, &style_preload);
 
-  /* -------------------------------- Preload 2 ------------------------------- */
-  preload2 = lv_preload_create(container_preloader, NULL);
-  lv_obj_set_size(preload2, 150, 150);
-  lv_preload_set_arc_length(preload2, 90);
-  lv_preload_set_spin_time(preload2, 1000);
-  lv_obj_align(preload2, NULL, LV_ALIGN_CENTER, 5, 0);
-  lv_preload_set_style(preload2, LV_PRELOAD_STYLE_MAIN, &style_preload);
-
-  /* -------------------------------- Preload 3 ------------------------------- */
-  preload3 = lv_preload_create(container_preloader, NULL);
-  lv_obj_set_size(preload3, 125, 125);
-  lv_preload_set_arc_length(preload3, 45);
-  lv_preload_set_spin_time(preload3, 500);
-  lv_obj_align(preload3, NULL, LV_ALIGN_CENTER, 5, 0);
-  lv_preload_set_style(preload3, LV_PRELOAD_STYLE_MAIN, &style_preload);
 
   /* ------------------------------- Ross Image ------------------------------- */
   ross_img = lv_img_create(container_preloader, NULL);
@@ -732,8 +629,8 @@ static void start_preloader_anim() {
   a.repeat_pause = 0;
 
   lv_anim_create(&a);
-  lv_obj_set_hidden(preload2, true);
-  lv_obj_set_hidden(preload3, true);
+  //lv_obj_set_hidden(preload2, true);
+  //lv_obj_set_hidden(preload3, true);
 
   pros::delay(1000);
 
